@@ -417,31 +417,31 @@ var rightBtn = document.getElementById('rightBtn');
 
 var leftMove;
 var rightMove;
-leftBtn.addEventListener('touchstart', function(){
+leftBtn.addEventListener('touchstart', function(e){
   // keyPush('left')
-  preventDefault()
+  e.preventDefault()
   console.log('interval started');
   leftMove = setInterval(function() {
       playerx -= 2;
   }, 15);
 })
-leftBtn.addEventListener('touchend', function(){
+leftBtn.addEventListener('touchend', function(e){
   // keyLift('left')
-  preventDefault()
+  e.preventDefault()
   clearInterval(leftMove);
   console.log(leftMove)
 })
 
-rightBtn.addEventListener('touchstart', function(){
+rightBtn.addEventListener('touchstart', function(e){
   // keyPush('right')
-  preventDefault()
+  e.preventDefault()
   rightMove = setInterval(function() {
       playerx += 2;
   }, 15);
 })
-rightBtn.addEventListener('touchend', function(){
+rightBtn.addEventListener('touchend', function(e){
   // keyLift('right')
-  preventDefault()
+  e.preventDefault()
   clearInterval(rightMove);
 })
 
