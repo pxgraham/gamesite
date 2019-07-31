@@ -4,11 +4,17 @@
   <style type="text/css">
     canvas {border: 0px solid black;}
     .bottompane {display: inline;}
+    .btn {
+      width: 50%;
+      height: 50px;
+    }
   </style>
 </head>
 <body onload="start(); preload();">
   <div align="center">
     <canvas id="canvas" width="716" height="573"></canvas>
+    <br />
+    <input class="btn" id="leftBtn" type="button" /><input class="btn" id="rightBtn" type="button" />
     <div class="bottompane">
     <p>Score: </p><p id="score">0</p><input type="button" id="Restart" value="Restart" onclick="location = location;" />
     </div>
@@ -399,12 +405,46 @@ if(spawn ==  true) {
 //##################################################################
 
 
+//BUTTON MOVE FUNCTIONS
+var leftBtn = document.getElementById('leftBtn');
+var rightBtn = document.getElementById('rightBtn');
 
+leftBtn.addEventListener('touchend', function(){
+  keyLift('left')
+})
+leftBtn.addEventListener('touchstart', function(){
+  keyPush('left')
+})
+
+rightBtn.addEventListener('touchend', function(){
+  keyLift('right')
+})
+rightBtn.addEventListener('touchstart', function(){
+  keyPush('right')
+})
 
 
 
 //#####################KEY FUNCTIONS################################
     function keyPush(evt) {
+      if(evt === 'left') {
+        if(playera == true) {
+          left = true;
+          player.src = "https://image.ibb.co/kAH7gx/player_left.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_left.png";
+          playerright = false;
+          playerleft = true;
+        }
+      }
+      if(evt === 'right') {
+        if(playera == true) {
+          right = true;
+          playerright = true;
+          playerleft = false;
+          player.src = "https://image.ibb.co/jRruTc/player_right.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_right.png";
+        }
+      }
       switch(evt.keyCode) {
         case 38:					//UP
           if(grounded == true) {
@@ -446,6 +486,12 @@ if(spawn ==  true) {
 
 //KEY FUNCTIONS
     function keyLift(evt) {
+      if(evt === 'left') {
+        left = false;
+      }
+      if(evt === 'right') {
+        right = false;
+      }
       switch(evt.keyCode) {
         case 38:	//UP
           break;
