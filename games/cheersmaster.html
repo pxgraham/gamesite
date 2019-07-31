@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    canvas {border: 0px solid black;}
+    .bottompane {display: inline;}
+  </style>
+</head>
+<body onload="start(); preload();">
+  <div align="center">
+    <canvas id="canvas" width="716" height="573"></canvas>
+    <div class="bottompane">
+    <p>Score: </p><p id="score">0</p><input type="button" id="Restart" value="Restart" onclick="location = location;" />
+    </div>
+
+  </div>
+  <script type="text/javascript">
+    canvas=document.getElementById('canvas');
+    ctx=canvas.getContext('2d');
+
+    var player = new Image();
+    player.src = "https://image.ibb.co/kAH7gx/player_left.png";
+    //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_right.png";
+
+    var bkgnd = new Image();
+    //bkgnd.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/titlescreen.png"
+    bkgnd.src = "https://preview.ibb.co/gNGdoc/titlescreen.png";
+
+    var enemy = new Image();
+    enemy.src = "https://image.ibb.co/nHaM8c/enemy.png";
+    //enemy.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/enemy.png";
+
+    var enemy_flame = new Image();
+    enemy_flame.src = "https://image.ibb.co/cp8f1x/enemy_flame.png"
+    //enemy_flame.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/enemy_flame.png";
+
+    playerc="black";
+    playerx=358;
+    playery=465;
+    playerw=15;
+    playerh=15;
+    playera = true;
+    
+    floorc="white"
+    floorx=0;
+    floory=480;
+    floorw=716
+    floorh=2
+   
+    enemyx = Math.random() * 716;
+    enemyy = -20;
+    enemyw = 15;
+    enemyh = 15;
+    enemys = 1;
+    enemya = false;
+
+    enemy1x = Math.random() * 716;
+    enemy1y = -20;
+    enemy1w = 15;
+    enemy1h = 15;
+    enemy1s = 1;
+    enemy1a = false;
+
+    enemy2x = Math.random() * 716;
+    enemy2y = -20;
+    enemy2w = 15;
+    enemy2h = 15;
+    enemy2s = 1;
+    enemy2a = false;
+
+
+    enemy_flamex = 500;
+    enemy_flamey = 465;
+    enemy_flamew = 15;
+    enemy_flameh = 15;
+    enemy_flames = 1.2;
+    enemy_flamea = false;
+
+    enemy_flame1x = 1;
+    enemy_flame1y = 465;
+    enemy_flame1w = 15;
+    enemy_flame1h = 15;
+    enemy_flame1s = 1.2;
+    enemy_flame1a = false;
+
+    platformc="black";
+    platformx=265
+    platformy=209
+    platformw=120
+    platformh=20
+
+    var jump = false;
+    var left = false;
+    var right = false;
+    var grounded = true;
+    playerright=true;
+    playerleft=false;
+
+    count = 0;
+    score2 = false;
+    score3 = false;
+    spawn = false;
+
+    function start() {
+      document.addEventListener('keydown', keyPush);
+      document.addEventListener('keyup', keyLift);
+      setInterval(game, 15);
+    }
+
+
+    function game() {
+      update();
+document.getElementById('score').innerHTML = score;
+
+if(playera == true) {
+      score = count;
+}
+      ctx.drawImage(player, playerx, playery, playerw, playerh);
+      ctx.drawImage(enemy, enemyx, enemyy, enemyw, enemyh);
+      ctx.drawImage(enemy_flame, enemy_flamex, enemy_flamey, enemy_flamew, enemy_flameh);
+if(count == 10) {
+spawn = true;
+}
+
+if(spawn == true) {
+      ctx.drawImage(enemy_flame, enemy_flame1x, enemy_flame1y, enemy_flame1w, enemy_flame1h);
+}
+
+      ctx.fillStyle = floorc;
+      ctx.fillRect(floorx, floory, floorw, floorh);
+
+
+
+//#############FLAME DETAILS############################################
+//FLAME MOVE MECHANICS
+      if(enemy_flamea == true) {
+        enemy_flamex -= enemy_flames;
+      } else if(enemy_flamea == false) {
+        enemy_flamex += enemy_flames;
+      }
+//FLAME MOVE MECHANICS
+      if(enemy_flamex < 0) {
+       // enemy_flames += 1;
+        enemy_flamea = false;
+      } else if(enemy_flamex > 716) {
+       // enemy_flames += 1;
+        enemy_flamea = true;
+      }
+//FLAME COLLISION
+      if(playerx + 15 >= enemy_flamex && playerx < enemy_flamex + 15 && enemy_flamey < playery + 15 && playera == true) {
+        player.src = "https://preview.ibb.co/eActoc/gameover.png";
+       // player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/gameover.png";
+        playera = false;
+      }
+//######################################################################
+
+
+
+
+
+
+
+//#############FLAME1 DETAILS############################################
+if(spawn ==  true) {
+//FLAME1 MOVE MECHANICS
+      if(enemy_flame1a == true) {
+        enemy_flame1x -= enemy_flame1s;
+      } else if(enemy_flame1a == false) {
+        enemy_flame1x += enemy_flame1s;
+      }
+//FLAME1 MOVE MECHANICS
+      if(enemy_flame1x < 0) {
+       // enemy_flame1s += 1;
+        enemy_flame1a = false;
+      } else if(enemy_flame1x > 716) {
+       // enemy_flame1s += 1;
+        enemy_flame1a = true;
+      }
+//FLAME1 COLLISION
+      if(playerx + 15 >= enemy_flame1x && playerx < enemy_flame1x + 15 && enemy_flame1y < playery + 15 && playera == true) {
+        player.src = "https://preview.ibb.co/eActoc/gameover.png";
+        //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/gameover.png";
+        playera = false;
+      }
+}
+//######################################################################
+
+
+
+
+
+
+
+
+
+
+//##########ENEMY DETAILS################################################
+//ENEMY MOVE MECHANICS
+      if(enemya == false) {
+        enemyx -= enemys;
+      } else if(enemya == true) {
+        enemyx += enemys;
+      }
+      if(enemyx < 0) {
+        enemya = true;
+      } else if(enemyx > 716) {
+        enemya = false;
+      }
+
+//ENEMY GRAVITY
+       enemyy += 2;
+
+//ENEMY GROUND BARRIER
+      if(enemyy + 15 > floory) {			
+        enemyy -= 2;
+      }
+
+//ENEMY COLLISON
+      if(playerx + 15 >= enemyx && playerx < enemyx + 15 && enemyy < playery + 15 && playery < enemyy + 15 && playera == true) {
+        if(enemya == true) {
+          enemyx = Math.random() * 716;
+          enemyy = -20;
+          enemya = false;
+        } else if(enemya == false) {
+          enemy1y = -20;
+          enemyx = Math.random() * 716;
+          enemya = true;
+        }
+        enemy_flames += 0.3;
+        enemy_flame1s += 0.195;
+        count += 1;
+      }
+
+//IF ENEMY COLLISION HAPPENS, ENEMY1 SPAWNS       
+      if(count == 1 && playera == true) {
+        score2 = true;
+      } else if(count == 2) {
+        score3 = true;
+      }
+      if(score2 == true) {
+      ctx.drawImage(enemy, enemy1x, enemy1y, enemy1w, enemy1h);
+      }
+      if(score3 == true) {
+      ctx.drawImage(enemy, enemy2x, enemy2y, enemy2w, enemy2h);
+      }
+
+//##########################################################################
+
+
+
+
+
+
+//##########ENEMY1 DETAILS##################################################
+//ENEMY1 MOVE MECHANICS
+      if(enemy1a == false) {
+        enemy1x -= enemy1s;
+      } else if(enemy1a == true) {
+        enemy1x += enemy1s;
+      }
+      if(enemy1x < 0) {
+        enemy1a = true;
+      } else if(enemy1x > 716) {
+        enemy1a = false;
+      }
+
+//ENEMY1 GRAVITY
+       enemy1y += 2;
+
+//ENEMY1 GROUND BARRIER
+      if(enemy1y + 15 > floory) {			
+        enemy1y -= 2;
+      }
+
+//ENEMY1 COLISION
+      if(playerx + 15 >= enemy1x && playerx < enemy1x + 15 && enemy1y < playery + 15 && playery < enemy1y + 15 && playera == true) {
+        if(enemy1a == true) {
+          enemy1y = -20;
+          enemy1x = Math.random() * 716;
+          enemy1a = false;
+        } else if(enemy1a == false) {
+          enemy1y = -20;
+          enemy1x = Math.random() * 716;
+          enemy1a = true;
+        }
+        enemy_flames += 0.3;
+        enemy_flame1s += 0.195;
+        count += 1;
+      }
+
+//IF ENEMY COLLISION HAPPENS, NEW ENEMY SPAWN
+/*
+      if(count == 1 && playera == true) {
+        score2 = true;
+      } else 
+*/
+      if(count == 2) {
+        score3 = true;
+      }
+      if(score2 == true) {
+      ctx.drawImage(enemy, enemy1x, enemy1y, enemy1w, enemy1h);
+      }
+      if(score3 == true) {
+      ctx.drawImage(enemy, enemy2x, enemy2y, enemy2w, enemy2h);
+      }
+//##########################################################################
+
+
+
+
+
+//##########ENEMY2 DETAILS##################################################
+
+//ENEMY2 MOVE MECHANICS
+      if(enemy2a == false) {
+        enemy2x -= enemy2s;
+      } else if(enemy2a == true) {
+        enemy2x += enemy2s;
+      }
+      if(enemy2x < 0) {
+        enemy2a = true;
+      } else if(enemy2x > 716) {
+        enemy2a = false;
+      }
+
+//ENEMY2 GRAVITY
+       enemy2y += 2;
+
+//enemy2 GROUND BARRIER
+      if(enemy2y + 15 > floory) {			
+        enemy2y -= 2;
+      }
+
+//ENEMY2 COLISION
+      if(playerx + 15 >= enemy2x && playerx < enemy2x + 15 && enemy2y < playery + 15 && playery < enemy2y + 15 && playera == true) {
+        if(enemy2a == true) {
+          enemy2y = -20;
+          enemy2x = Math.random() * 716;
+          enemy2a = false;
+        } else if(enemy2a == false) {
+          enemy2y = -20;
+          enemy2x = Math.random() * 716;
+          enemy2a = true;
+        }
+        enemy_flames += 0.3;
+        enemy_flame1s += 0.195;
+        count += 1;
+      }
+
+//##########################################################################
+
+
+
+
+
+
+
+
+//########################PLAYER MECHANICS##################################
+//PLAYER LIFE MECHANICS			
+      if(playera == false) {		
+        jump = false;			
+        grounded = false;		
+      }					
+					
+//PLAYER OFF SCREEN BARRIERS		
+      if(playerx < 0) {			
+        playerx += 2;		
+      } else if(playerx > 701) {	
+        playerx -= 2;			
+      }					
+
+//PLAYER GRAVITY
+      playery += 2;
+	
+//PLAYER GROUND BARRIER
+      if(playery + 15 > floory) {			
+        playery -= 2;
+        grounded = true;
+      }  
+     
+//PLAYER JUMP MECHANICS
+      if(jump == true) {
+        playery -= 5;
+        if(playery < floory - 50) {
+          grounded = false;
+          jump = false;
+        } 
+      }
+
+//PLAYER MOVE MECHANICS
+      if(right == true) {
+        playerx += 2;
+      }
+      if(left == true) {
+        playerx -= 2;
+      }
+    }
+//##################################################################
+
+
+
+
+
+
+//#####################KEY FUNCTIONS################################
+    function keyPush(evt) {
+      switch(evt.keyCode) {
+        case 38:					//UP
+          if(grounded == true) {
+            pos = playery;
+            jump = true; 
+          }
+          break;
+       case 37:		//LEFT
+          if(playera == true) {
+          left = true;
+          player.src = "https://image.ibb.co/kAH7gx/player_left.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_left.png";
+          playerright = false;
+          playerleft = true;
+          }
+          break;
+       case 39:		//RIGHT
+          if(playera == true) {
+          right = true;
+          playerright = true;
+          playerleft = false;
+          player.src = "https://image.ibb.co/jRruTc/player_right.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_right.png";
+          }
+          break;
+       case 40:		//DOWN
+          if(playera == true) {
+          if(playerleft == true) {
+          player.src = "https://image.ibb.co/hnH18c/playercrouch_l.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/playercrouch_l.png";
+          } else if(playerright == true) {
+          player.src = "https://image.ibb.co/jRruTc/player_right.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/playercrouch_r.png";
+          }
+          }
+          break;
+      }
+    }
+
+//KEY FUNCTIONS
+    function keyLift(evt) {
+      switch(evt.keyCode) {
+        case 38:	//UP
+          break;
+       case 37:		//LEFT
+          left = false;
+          break;
+       case 39:		//RIGHT
+          right = false;
+          break;
+       case 40:		//DOWN
+          if(playera == true) {
+          if(playerleft == true) {
+          player.src = "https://image.ibb.co/kAH7gx/player_left.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_left.png";
+          } else if(playerright == true) {
+          player.src = "https://image.ibb.co/jRruTc/player_right.png";
+          //player.src = "file://ustmp-fnp01/Programs/FedEx/Agents/3189455/Documents/CHEERSMASTER/player_right.png";
+          }
+          }
+          break;
+      }
+    }
+
+    function capture() {
+        pos=playery;
+    }
+//#####################KEY FUNCTIONS################################
+
+
+//FRAMERATE
+    function update() {
+      ctx.drawImage(bkgnd, 0, 0, canvas.width, canvas.height);
+    }
+
+//##################################################################
+
+			var images = new Array()
+			function preload() {
+				for (i = 0; i < preload.arguments.length; i++) {
+					images[i] = new Image()
+					images[i].src = preload.arguments[i]
+				}
+			}
+			preload(
+				"https://preview.ibb.co/gNGdoc/titlescreen.png", 	// TITLESCREEN
+                                "https://image.ibb.co/nHaM8c/enemy.png",		//ENEMY
+                                "https://image.ibb.co/cp8f1x/enemy_flame.png",	//FLAME
+                                "https://image.ibb.co/kAH7gx/player_left.png",	//P LEFT
+                                "https://image.ibb.co/jRruTc/player_right.png",	//P RIGHT
+                                "https://image.ibb.co/hnH18c/playercrouch_l.png",	//CROUCH LEFT
+                                "https://image.ibb.co/jRruTc/player_right.png",	//CROUCH RIGHT
+                                "https://preview.ibb.co/eActoc/gameover.png" 	//gameover
+			)
+
+  </script>
+</body>
+</html>

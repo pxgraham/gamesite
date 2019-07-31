@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flappy Square</title>
+  <style type="text/css">
+    canvas {border: 1px solid black;}
+    .main {font-family: comic sans ms; font-size: 15px;}
+    .btn {display: none; border: 0px; background-color: white; color: purple; font-family: comic sans ms; font-size: 20px;}
+    .btn:hover {border: 0px; background-color: purple; color: white; font-family: comic sans ms; font-size: 20px;}
+  </style>
+</head>
+<body onload="start();">
+  <div align="center">
+    <canvas id="canvas"></canvas>
+    <p class="main">Score</p>
+    <p id="score" class="main">0</p>
+    <p id="result" class="main"></p>
+    <input type="button" id="btn" class="btn" value="Try Again?" onclick="location = location;"/>
+  </div>
+
+  <script type="text/javascript">
+birdjump = 0;
+//SCORE VARIABLE NAMED HERE
+    score = 0;						//CURRENT SCORE
+//BIRD VARIABLES NAMED HERE
+    alive = 1;						//BIRD LIFE STATUS. "1" MEANS ALIVE
+    birdc = "black";					//BIRD COLOR
+    birdx = 3;						//BIRD X POSITION
+    birdy = 75;						//BIRD Y POSITION
+    birdw = 20;						//BIRD WIDTH
+    birdh = 20;						//BIRD HEIGHT
+
+//FIRST CAR VARIABLES NAMED HERE
+    carc = "red";					//CAR COLOR
+    carx = 300;						//CAR X POSITION
+    cary = 30;						//CAR Y POSITION
+    carw = 20;						//CAR WIDTH
+    carh = 80;						//CAR HEIGHT
+    caryr = 70;						//CAR Y RANDOM POSITION
+    cars = 1;						//CAR SPEED
+
+//SECOND CAR VARIABLES NAMED HERE
+    carc2 = "red";					//CAR2 COLOR
+    carx2 = 450;					//CAR2 X POSITION. CAR2 STARTS AT A FURTHER POSITION THAN CAR 1, SO THAT IT COMES AFTER THE FIRST CAR, BUT WITH THE SAME FEATURES
+    cary2 = 30;						//CAR2 Y POSITION
+    carw2 = 20;						//CAR2 WIDTH
+    carh2 = 80;						//CAR2 HEIGHT
+    caryr2 = 70;					//CAR2 Y RANDOM POSITION
+    cars2 = 1;						//CAR2 SPEED
+
+//CANVAS AND CONTEXT VARIABLE HERE
+    var canvas = document.getElementById('canvas'); 	//GET CANVAS ELEMENT
+    var ctx = canvas.getContext('2d');			//GET CONTEXT
+
+//START FUNCTION ADDS KEYSTOKE FUNCTIONALITY AND FRAMERATING
+    function start() {					
+      document.addEventListener("keydown", keyPush);	//ADDS KEYPRESS FUNCTIONALITY
+      setInterval(game, 15);				//SETS FRAMERATE		
+    }
+
+//GAME FUNCTION ADDS BIRD AND CAR PHYSICS    
+    function game() {
+      update(); 					//CLEARS SCREEN EVERY FRAME. EVERYTHING ELSE IN GAME() PAINTS SCREEN EVERY FRAME
+      ctx.fillStyle = "cyan";				//PAINTS BACKGROUND CYAN
+      ctx.fillRect(1, 1, canvas.width, canvas. height); //FILLS THE WHOLE BACKGROUND
+      document.getElementById('score').innerHTML=score;	//UPDATES THE SCOREBOARD EVERY FRAME				
+      birdy += 1;					//GIVE THE BIRD GRAVITY DOWNWARD
+      if(carx < -19) {					//IF CAR HITS EDGE OF SCREEN
+        score += 1;					//INCREASES SCORE IF CAR RESETS. IF CAR RESETS, THAT MEANS YOU DID NOT HIT IT
+        carx = 300;					//CAR RESETS BACK TO RIGHT OF SCREEN
+        caryr = Math.random() * 60 + 70;	        //CAR Y POSITION CHANGES TO A RANDOM NUMBER EVERY TIME CAR RESETS
+      }
+      if(carx2 < -19) {					//IF CAR 2 HITS EDGE OF SCREEN	
+        score += 1;					//INCREASES SCORE IF CAR RESETS. CARS DO NOT RESET IF YOU HIT THEM. 
+        carx2 = 300;					//CAR 2 RESETS BACK TO THE RIGHT
+        caryr2 = Math.random() * 60 + 70; 		//CAR Y 2 RANDOM POSITION EVERYTIME CAR2 RESETS
+      }
+      carx -= cars;					//GIVE CAR GRAVITY LEFTWARD
+      ctx.fillStyle = carc;				//CAR COLOR
+      ctx.fillRect(carx, caryr, carw, carh);		//CAR POSITION AND DIMENSIONS
+      ctx.fillStyle = carc;				//CAR COLOR TOP HALF
+      ctx.fillRect(carx, caryr - 130, carw, carh);	//CAR POSITION AND DIMENSIONS TOP HALF
+
+      carx2 -= cars;  					//GIVE CAR2 GRAVITY LEFTWARD
+      ctx.fillStyle = carc2;				//CAR2 COLOR
+      ctx.fillRect(carx2, caryr2, carw2, carh2);	//CAR2 POSITION AND DIMENSIONS
+      ctx.fillStyle = carc2;				//CAR2 COLOR TOP HALF
+      ctx.fillRect(carx2, caryr2 - 130, carw2, carh2);	//CAR2 POSITION AND DIMENSIONS TOP HALF 
+      ctx.fillStyle = birdc;				//BIRD COLOR
+      ctx.fillRect(birdx, birdy, birdw, birdh);		//BIRD POSITION AND DIMENSTIONS
+      if(birdy > 130) {					//IF BIRD IS LOWER THAN SCREEN, THIS MAKES HIM STOP
+        birdy -= 1;					
+      }
+      if(birdjump == 1) {
+        birdy -= 4;
+        if(birdy < maxjump) {
+          birdjump = 0;
+        }
+      }
+      if(alive == 0) {					//IF BIRD DIES
+        birdy += 5;					//BIRD FALLS
+        if(birdy > 130) {				//IF BIRD FALLS FURTHER THAN GROUND
+          birdy -= 5;					//MAKE HIM STOP WHEN HE HITS THE GROUND
+        }
+      }
+      if(carx < 24 && birdy - 24 < caryr - 80 || carx < 24 && birdy + 21 > caryr || carx2 < 24 && birdy - 24 < caryr2 - 80 || carx2 < 24 && birdy + 21 > caryr2) { 	//IF YOU HIT THE CAR
+        alive = 0;					//BIRD ALIVE STATUS = DEAD
+	carx += cars;					//CAR 1 FREEZES
+        carx2 += cars2;					//CAR 2 FREEZES
+      }
+      if(score == 5 && cars == 1) {			//IF SCORE IS 5, INCREASE SPEED BY 
+        cars += 0.3;
+        cars2 += 0.3;
+      } 
+      if(score == 10 && cars == 1.3) {   		//IF SCORE IS 10, INCREASE SPEED BY 
+        cars += 0.3;
+        cars2 += 0.3;
+      }    
+      if(score == 15 && cars == 1.6) {   		//IF SCORE IS 15, INCREASE SPEED BY 
+        cars += 0.2;
+        cars2 += 0.2;
+      }  
+      if(score == 16 && cars == 1.8) {   		//IF SCORE IS 16, INCREASE SPEED BY 
+        cars += 0.3;
+        cars2 += 0.3;
+      } 
+      if(score == 17 && cars == 2.1) {   		//IF SCORE IS 17, INCREASE SPEED BY 
+        cars += 0.3;
+        cars2 += 0.3;
+      }
+      if(score == 18 && cars == 2.4) {   		//IF SCORE IS 18, INCREASE SPEED BY 
+        cars += 0.2;
+        cars2 += 0.2;
+      }
+      if(score == 19 && cars == 2.6) {   		//IF SCORE IS 19, INCREASE SPEED BY 
+        cars += 0.4;
+        cars2 += 0.4;
+      }
+      if(score == 20 && cars == 3) {   			//IF SCORE IS 20, INCREASE SPEED TO 4 (WAS 2.6 AT 19 SCORE)
+        cars = 4;
+        cars2 = 4;
+      }
+      if(alive == 0) {
+        document.getElementById('result').innerHTML = "You Lose. Better Luck next time!";
+        document.getElementById('btn').style.display = "inline";
+      }
+    }
+
+//UPDATE FUNCTION CLEARS THE SCREEN EVERY FRAME, SET IN THE START FUNCTION INTERVAL
+    function update() {
+      ctx.fillStyle = "white";				//CLEAR SCREEN
+      ctx.fillRect(0, 0, canvas.width, canvas.height);	//CLEAR POSITION AND DIMENSIONS
+    }
+
+//KEYPUSH FUNCTION IS FOR SPECIFYING KEYSTROKE FUNCTIONS
+   function keyPush(evt) {
+     if(alive == 1) {					//IF BIRD IS ALIVE
+       switch (evt.keyCode) {
+           case 32:					//SPACE BAR KEY
+		birdjump = 1;
+	        maxjump = birdy - 20;
+              break;  
+       }     
+     } 
+   }
+
+  </script>
+</body>
+</html>

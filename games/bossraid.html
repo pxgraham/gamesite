@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  body {overflow: hidden;}
+  canvas {border: 5px solid black;}
+  </style>
+</head>
+<body onload="start();">
+  <div align="center">
+     <canvas id="canvas" width="1000px" height="500px"></canvas>
+     <br>
+     <input type="button" value="Click here to Restart or Press the SPACE bar" style="width: 500px; height: 25px; background-color: white; border: 1px solid cyan; font-family: comic sans ms; font-size: 20px; " onclick="location=location;"/>
+  </div>
+
+  <script type="text/javascript">
+
+//CANVAS AND CTX USED FOR DRAWING MAINLY
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+
+//LEFT RIGHT UP AND DOWN USED FOR PLAYER MOVEMENT
+  var left=false;
+  var right=false;
+  var up=false;
+  var down=false;
+
+//VAR PLAYER IS WHAT MOVES AND SHOOTS WITH COMMANDS
+  var player = new Object(canvas.width/10, canvas.height/2, 50, 50, 'black');
+
+//
+  var boss = new Object(900, canvas.height/2, 85, 85, 'red');  
+  var bossproto = 20;
+
+//VAR CLIP IS WHERE BULLETS ARE STORED  
+  var clip = [];
+   
+//ENEMY POOL IS WHERE ENEMIES ARE STORED
+  var enemypool=[];
+  var enemyNum = 5;
+  var bosshealth = 1000;
+  var playerhealth = 300;
+  var weapon = "Standard";
+//FOR LOOP ADDS 25 ENEMIES TO THE ENEMY POOL  
+  for(var i = 0; i < 10; i++) {
+    enemypool.push(new Object(/*Math.random() * 4000 + 1000*/boss.x + 10,Math.random() * 450, 50, 50, '#ffe6e6'));
+    enemypool[i].x -= Math.random() * -1000;
+  }
+  var enemyspeed=10;
+//SPEED OF BULLETS THAT PLAYER SHOOTS
+  var bulletspeed = 20;
+
+//SPEED OF PLAYER WHEN MOVING  
+  var playerspeed = 15; 
+
+//VAR SCORE USED FOR SCORE COUNTER ON SCREEN 
+  var score = 0;
+
+//START ADDS FRAMERATE AND KEY CAPTURES  
+  function start() {
+      setInterval(game, 35);
+      document.addEventListener('keydown', keyPress);
+      document.addEventListener('keyup', keyLift);
+  }
+
+//GAME FUNCTION INCLUDES MOST OF IN-GAME GRAPHICS AND MECHANICS. IT REFRESHES EVERY AT AN INTERVAL OF 35
+  function game() {
+      update();
+      player.update();
+      if(score > 20) {
+         var enemyNum = score / 4
+      }
+     ctx.fillStyle = "black";
+     ctx.fillRect(325, 0, 5, 40);
+     ctx.fillRect(645, 0, 5, 40);
+          
+     ctx.font="48px comic sans ms";
+     ctx.fillText('Score: ' + "  " + score * 5, 330, 39);
+         ctx.fillStyle="red";
+         ctx.font="20px comic sans ms"
+         ctx.fillText('Weapon: ' + "  " + weapon, 0, 39);
+   
+     for(var i = 0; i < clip.length; i++) {
+       if(score > 50 && score < 99) {
+         clip[i].w = 75;
+         weapon="Heavy"
+         bulletspeed = 40;
+       }
+       if(score > 100) {
+         clip[i].w = 5;
+         clip[i].h = 75;
+         bulletspeed = 90;
+         playerspeed=25;
+         clip[i].y = player.y + 10;
+         weapon="The ANNIHITLATION";
+       }
+     }
+
+      if(bosshealth <= 0) {
+        bosshealth = 0;
+        ctx.font="100px comic sans ms"
+        ctx.fillText('You Win!', canvas.width/2, canvas.height/2);
+        boss.x = -1000;
+        boss.y = 500000;
+        playerspeed = 0;
+        bulletspeed = 0;
+        clip = [];
+        enemypool = [];
+      }
+
+      if(bosshealth < 500) {
+        enemyspeed = 15;
+      } 
+      if(bosshealth < 300) {
+        enemyspeed = 20;
+      }
+
+
+      if(playerhealth <= 0) {
+        playerhealth = 0;
+        ctx.fillStyle = "red";
+        ctx.font="100px comic sans ms"
+        ctx.fillText('You Lose', canvas.width/2, canvas.height/2);
+        boss.x = -1000;
+        boss.y = 500000;
+        playerspeed = 0;
+        bulletspeed = 0;
+        clip = [];
+        enemypool = [];
+      }
+
+//
+  if(score >= 0) {
+    boss.update();
+    boss.x -= 20;
+    if(boss.x < 900) {
+      boss.x += 20;
+      boss.y -= bossproto;
+      if(boss.y <= Math.random() * 150) {
+        bossproto = -20;
+      }
+      if(boss.y > Math.random() * 200 + 250) {
+        bossproto = 20;;
+      }
+    }
+  }      
+
+//SCORE COUNTER
+       ctx.fillStyle = 'grey';
+       ctx.font = "40px comic sans ms";
+       ctx.fillText("Boss Health: " + bosshealth, 660, 35);
+       ctx.font = "25px comic sans ms";
+       ctx.fillStyle="lime";
+       ctx.fillText("Health: " + playerhealth, 0, 20);
+       ctx.fillStyle='black';
+       ctx.fillRect(0, 40, canvas.width, 5);
+
+
+//BULLETS SPAWN WHEN CREATED WITH 'SPACE' KEY. ONLY 25 BULLETS CAN BE SPAWNED AT A TIME. IF BULLET GOES OFF SCREEN, IT DELETES.
+        for(var i = 0; i < clip.length; i++) {
+          clip[i].update();
+          clip[i].x += bulletspeed;
+          if(clip.length > 25){     //MAX AMOUNT OF BULLETS IS HERE
+            clip.length = 25;
+          }
+          if(clip[i].x > 1000) {
+              clip.shift();        //DELETE OFF SCREEN BULLETS
+          }       
+        }
+
+
+//ENEMY SPAWNING FROM POOL. POOL HAS 25 ENEMIES IN IT
+    for(var i = 0; i < enemypool.length; i++) {
+      enemypool[i].update();    
+      enemypool[i].x -= enemyspeed;  
+      if(enemypool[i].x < -50) {
+        enemypool[i].x = boss.x + 10;
+        enemypool[i].y = boss.y + 40;
+      }     
+    }
+//BULLET COLLISION WITH BOSS
+      for(var j = 0; j < enemypool.length; j++) {
+        if(player.x + player.w > enemypool[j].x && player.y + player.h > enemypool[j].y && player.y < enemypool[j].y + enemypool[j].h && player.x < enemypool[j].x + enemypool[j].h) {
+          playerhealth -= 100;
+          enemypool[j].x = boss.x + 10;
+          enemypool[j].y = boss.y + 40;
+        }
+      } 
+
+
+//BULLET COLLISION WITH ENEMY
+    for(var i = 0; i < clip.length; i++) {
+      for(var j = 0; j < enemypool.length; j++) {
+        if(clip[i].x + clip[i].w > enemypool[j].x && clip[i].y + clip[i].h > enemypool[j].y && clip[i].y < enemypool[j].y + enemypool[j].h && clip[i].x < enemypool[j].x + enemypool[j].h) {
+          score += 1;
+          clip.shift();
+          enemypool[j].x = boss.x + 10;
+          enemypool[j].y = boss.y + 40;
+        }
+        if(clip[i].x + clip[i].w > boss.x && clip[i].y + clip[i].h > boss.y && clip[i].y < boss.y + boss.h && clip[i].x < boss.x + boss.h) {
+           bosshealth -= 1;
+           clip.shift();
+        }
+      }
+    }
+       
+//MOVEMENT AND BOUNDRIES
+    if(left==true) {
+        player.x -= playerspeed;
+        if(player.x < 0) {
+          player.x = 0;
+        }
+    } 
+    if(right==true) {
+        player.x += playerspeed;
+        if(player.x + player.w >= 1000) {
+          player.x = 950;
+        }
+    }
+    if(up==true) {
+      player.y -= playerspeed;
+      if(player.y < 0) {
+        player.y = 0;
+      }     
+    }
+    if(down==true) {
+      player.y += playerspeed; 
+      if(player.y + player.h >= 500) {
+         player.y=450;
+      }     
+    }
+  }
+
+//GAME OBJECT FORMAT. USING 'new Object(x, y, w, h, c)' but input values rather than variables. use this.update() to draw object
+  function Object(x, y, w, h, c) {
+      this.x = x;
+      this.y = y;
+      this.w = w;
+      this.h = h;
+      this.update = function () {
+          ctx.fillStyle = c;
+          ctx.fillRect(this.x, this.y, this.w, this.h);
+      }
+  }
+/*reference codes
+
+65: a
+83: s
+87: w
+68: d
+13: enter
+32: space
+37: left
+38: up
+39: right
+40: down
+
+end of reference codes*/
+
+//KEY PRESSES
+  function keyPress(evt) {
+      switch(evt.keyCode) {
+          case 13:
+            clip.push(new Object(player.x + player.w, player.y, 20, 20, 'lime'));
+            break;
+          case 65:
+            left=true;
+            break;
+          case 68:
+            right=true;
+            break;
+          case 87:
+            up=true;
+            break;   
+          case 83:
+            down=true;
+            break;                     
+      }
+  }
+
+// KEY LIFTS
+  function keyLift(evt) {
+      switch(evt.keyCode) {
+          case 32:
+          location=location;
+          break;
+          case 13:
+            //
+            break;
+          case 65:
+            left=false;
+            break;
+          case 68:
+            right=false;
+            break;
+          case 87:
+            up=false;
+            break;
+          case 83:
+            down=false;
+            break;
+      }
+  }
+
+//SCREEN CLEARER
+  function update() {
+    ctx.fillStyle='white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  </script>
+</body>
+</html>

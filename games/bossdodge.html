@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<head>
+  <style type="text/css">
+     html {overflow: hidden;}
+     canvas {border: 3px solid black;}
+.hi {color: red;}
+  </style>
+</head>
+<body onload="int();">
+  <div align="center">
+    <canvas id="canvas" width="1000px" height="500px"></canvas>
+<p class="hi">use the left, right, up, and down arrow keys. AVOID THE BOSSES OBSTACLES AT ALL COSTS!</p>
+  </div>
+</body>
+<script type="text/javascript">
+
+   var canvas = document.getElementById('canvas');
+   var ctx = canvas.getContext('2d');
+
+   up=false;
+   down=false;
+   left=false;
+   right=false;
+
+   var player = new Object('black', 10, 490, 10, 10);
+   var platform = new Object('black', 900, 450, 50, 50);
+   var shot = new Object('black', platform.x, platform.y, 20, 50);
+   var shot1 = new Object('black', platform.x, platform.y, 20, 50);
+   var shot2 = new Object('black', platform.x, platform.y, 20, 50);
+   var shot3 = new Object('black', platform.x, platform.y, 20, 50);
+   var gravity = 1;
+   var speed = 1;
+   var bspeed = Math.floor(Math.random() * 5) + 2;
+   var bspeed1 = Math.floor(Math.random() * 5) + 2;
+   var bspeed2 = Math.floor(Math.random() * 5) + 2;
+   var bspeed3 = Math.floor(Math.random() * 5) + 2;
+   var score = 0;
+   var bgravity = 0.2;
+   var count = 0;
+   var pspeed = 4;
+   var pgravity = 2;
+   var level = 1;
+   var rspeed = 10;
+
+
+   grounded = true;
+  
+   function int() {
+       setInterval(game, 15);
+       document.addEventListener('keydown', keyPush);
+       document.addEventListener('keyup', keyLift);
+   }
+
+   function game() {
+       clear();
+       player.update();
+       platform.update();
+       shoot();
+
+       if(player.x + player.w > shot.x && player.x < shot.x + shot.w && player.y + player.h > shot.y && player.y < shot.y + shot.h || player.x + player.w > shot1.x && player.x < shot1.x + shot1.w && player.y + player.h > shot1.y && player.y < shot1.y + shot1.h || player.x + player.w > shot2.x && player.x < shot2.x + shot2.w && player.y + player.h > shot2.y && player.y < shot2.y + shot2.h || player.x + player.w > shot3.x && player.x < shot3.x + shot3.w && player.y + player.h > shot3.y && player.y < shot3.y + shot3.h) {           
+         speed = 0;
+         bspeed = 0;
+         bspeed1 = 0;
+         bspeed2 = 0;
+         bspeed3 = 0;
+         shot.y += bgravity;
+         shot1.y += bgravity;
+         shot2.y += bgravity;
+         shot3.y += bgravity;
+         count = 0;
+         score = 0;
+         ctx.font="40px Georgia";
+         ctx.fillText("The Boss has taken you down" + "\n" + ".. the boss is satisfied", 0, canvas.height / 2);
+       }
+   }
+
+
+   function Object(c, x, y, w, h) {
+       this.x = x;
+       this.y = y;
+       this.w = w;
+       this.h = h;
+       this.update = function () {
+         ctx.fillStyle = c;
+         ctx.fillRect(this.x, this.y, this.w, this.h);
+
+         player.y += gravity;
+
+         if(player.y > canvas.height - player.h) {
+           gravity = 0;
+           player.y = canvas.height - player.h;
+         } 
+
+         if(up == true && grounded == true) {         
+             player.y -= speed;
+             setTimeout(fall, 300);
+         }
+         if(down == true) {
+             player.y += speed;
+         }
+         if(left == true) {
+             player.x -= speed;
+         }
+         if(right == true) {
+             player.x += speed;
+         }                           
+       }
+   }
+
+   function keyPush(evt) {
+       switch(evt.keyCode) {
+           case 38: //up
+           up=true;
+           break;
+           case 37: //left
+           left=true;
+           break;
+           case 39: //right
+           right=true;
+           break;
+           case 40: //down
+           down=true;
+           break;
+          case 32: 
+         location=location
+        break;
+       }
+   }
+
+      function keyLift(evt) {
+       switch(evt.keyCode) {
+           case 38: //up
+           up=false;
+           gravity = 1;
+           break;
+           case 37: //left
+           left=false;
+           break;
+           case 39: //right
+           right=false;
+           break;
+           case 40: //down
+           down=false;
+           break;
+       }
+   }
+    
+   function fall() {
+       gravity = 1;
+       up=false;
+   }
+   function shoot() {
+       shot.update();
+       shot.x -= bspeed;
+       shot1.update();
+       shot1.x -= bspeed1;
+       shot2.update();
+       shot2.x -= bspeed2;
+       shot3.update();
+       shot3.x -= bspeed3;
+       if(shot.x < 0 - shot.w) {
+           shot.x = platform.x;
+           shot.y = platform.y;
+           bspeed = Math.floor(Math.random() * 5) + 2;
+           score += 1;
+       } else if(shot1.x < 0 - shot1.w) {
+           shot1.x = platform.x;
+           shot1.y = platform.y;
+           bspeed1 = Math.floor(Math.random() * 5) + 2;
+           score += 1;
+       }  else if(shot2.x < 0 - shot2.w) {
+           shot2.x = platform.x;
+           shot2.y = platform.y;
+           bspeed2 = Math.floor(Math.random() * 5) + 2;
+           score += 1;
+       }  else if(shot3.x < 0 - shot3.w) {
+           shot3.x = platform.x;
+           shot3.y = platform.y;
+           bspeed3 = Math.floor(Math.random() * 5) + 2;
+           score += 1;
+       }
+
+      if(score > 10) {
+         ctx.font="40px Georgia";
+         ctx.fillText("The Boss Grows Weary...", canvas.width / 2, canvas.height / 2);
+         bgravity = 1;
+         count += 0.1;
+         bspeed = 0;
+         bspeed1 = 0;
+         bspeed2 = 0;
+         bspeed3 = 0;
+         shot.y += bgravity;
+         shot1.y += bgravity;
+         shot2.y += bgravity;
+         shot3.y += bgravity;
+       }
+       if(count > 10) {
+           score = 0;
+           bgravity = 0;
+           shot.x = platform.x;
+           shot1.x = platform.x;
+           shot2.x = platform.x;
+           shot3.x = platform.x;
+           ctx.fillText("The Boss Gets Angry", canvas.width / 2, canvas.height / 2);
+           count += 0.1;
+        }
+        if(count > 20) {
+            score = 0;
+            count = 0;
+            shot.y = platform.y;
+            shot1.y = platform.y;
+            shot2.y = platform.y;
+            shot3.y = platform.y;
+            bspeed = Math.floor(Math.random() * 5) + 2;
+            bspeed1 = Math.floor(Math.random() * 5) + 2;
+            bspeed2 = Math.floor(Math.random() * 5) + 2;
+            bspeed3 = Math.floor(Math.random() * 5) + 2;
+            level += 1;
+        }
+        if(level == 2) {
+
+            platform.y += pgravity;
+            if(platform.y > 450) {
+                pgravity = -2;
+            }
+            if(platform.y < 350) {
+                pgravity = 2;
+            }
+        }
+        if(level == 3) {
+            platform.y = 450
+            platform.x -= 1;
+            if(platform.x < 50) {
+                platform.x += 1;
+            }
+        } 
+        if(level == 4) {
+          platform.x += rspeed;
+          if(platform.x > 900) {
+              rspeed = 0;
+          }
+        }
+        /*if(level == 5) {
+         bspeed = 0;
+         bspeed1 = 0;
+         bspeed2 = 0;
+         bspeed3 = 0;
+         shot.y += bgravity;
+         shot1.y += bgravity;
+         shot2.y += bgravity;
+         shot3.y += bgravity;
+         count = 0;
+         score = 0;
+         ctx.fillText("The Boss has Grown Tired of attacking you... You win!", canvas.width / 2, canvas.height / 2);
+        }*/
+   }
+
+
+   function clear() {
+       ctx.fillStyle = "white";
+       ctx.fillRect(0, 0, canvas.width, canvas.height);
+   }
+
+</script>
+</html>
