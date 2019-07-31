@@ -71,22 +71,22 @@
 
         <div align="center">
                 <canvas id="canvas" width="1000px" height="700px"></canvas>
-                <div class="upbtn btn">
+                <div id="upBtn" class="upbtn btn">
                         u
                 </div>
-                <div class="downbtn btn">
+                <div id="downBtn" class="downbtn btn">
                         d
                 </div>
-                <div class="leftbtn btn">
+                <div id="leftBtn" class="leftbtn btn">
                         l
                 </div>
-                <div class="rightbtn btn">
+                <div id="rightBtn" class="rightbtn btn">
                         r
                 </div>
-                <div class="abtn btn">
+                <div id="aBtn" class="abtn btn">
                         a
                 </div>                
-                <div class="bbtn btn">
+                <div id="bBtn" class="bbtn btn">
                         b
                 </div>
         </div>
@@ -405,6 +405,51 @@
                                         break;
                         }
                 }
+                
+
+                //MOBILE MOVEMENT 
+                var leftBtn = document.getElementById('leftBtn');
+                var rightBtn = document.getElementById('rightBtn');
+                var upBtn = document.getElementById('upBtn');
+                var downBtn = document.getElementById('downBtn');
+                var aBtn = document.getElementById('aBtn');
+                var bBtn = document.getElementById('bBtn');
+
+                leftBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        left = true;
+                })
+                leftBtn.addEventListener('touchend', function(e){
+                        e.preventDefault()
+                        left = false;
+                })
+
+                rightBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        right = true;
+                })
+                rightBtn.addEventListener('touchend', function(e){
+                        e.preventDefault()
+                        right = false;
+                })
+
+                downBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        down = true;
+                })
+                downBtn.addEventListener('touchend', function(e){
+                        e.preventDefault()
+                        down = false;
+                })
+
+                upBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        up = true;
+                })
+                upBtn.addEventListener('touchend', function(e){
+                        e.preventDefault()
+                        up = false;
+                })
 
                 function update() {
                         ctx.fillStyle = "black";
