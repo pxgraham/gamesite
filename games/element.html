@@ -415,6 +415,74 @@
                 var downBtn = document.getElementById('downBtn');
                 var aBtn = document.getElementById('aBtn');
                 var bBtn = document.getElementById('bBtn');
+                //f70, d68
+
+                aBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        if (fireActive == true) {
+                                fireball.push(new Object(player.x, player.y, 20, 20, 'red'))
+                        }
+                        if (waterActive == true) {
+                                waterball.push(new Object(player.x, player.y, 20, 20, 'blue'))
+                        }
+                        if (earthActive == true) {
+                                earthball.push(new Object(player.x, player.y, 20, 20, 'brown'))
+                        }
+                        if (airActive == true) {
+                                airball.push(new Object(player.x, player.y, 20, 20, 'white'))
+                        }
+ 
+                })
+                bBtn.addEventListener('touchstart', function(e){
+                        e.preventDefault()
+                        wallx = player.x + player.w + 5;
+                        wally = player.y - 40;
+                        if (fireActive == true) {
+                                firewallup = true;
+                                waterwallup = false;
+                                earthwallup = false;
+                                airwallup = false;
+                                firewall.x = wallx;
+                                firewall.y = wally;
+                                airwall.x = -100;
+                                earthwall.x = -100;
+                                waterwall.x = -100;
+                        }
+                        if (waterActive == true) {
+                                firewallup = false;
+                                waterwallup = true;
+                                earthwallup = false;
+                                airwallup = false;
+                                waterwall.x = wallx;
+                                waterwall.y = wally;
+                                airwall.x = -100;
+                                firewall.x = -100;
+                                earthwall.x = -100;
+                        }
+                        if (earthActive == true) {
+                                firewallup = false;
+                                waterwallup = false;
+                                earthwallup = true;
+                                airwallup = false;
+                                earthwall.x = wallx;
+                                earthwall.y = wally;
+                                airwall.x = -100;
+                                firewall.x = -100;
+                                waterwall.x = -100;
+                        }
+                        if (airActive == true) {
+                                firewallup = false;
+                                waterwallup = false;
+                                earthwallup = false;
+                                airwallup = true;
+                                airwall.x = wallx;
+                                airwall.y = wally;
+                                firewall.x = -100;
+                                earthwall.x = -100;
+                                waterwall.x = -100;
+                        }
+ 
+                })
 
                 leftBtn.addEventListener('touchstart', function(e){
                         e.preventDefault()
