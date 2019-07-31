@@ -23,7 +23,7 @@
   }
   </style>
 </head>
-<body onload="start(); preload();">
+<body id="body" onload="start(); preload();">
   <div align="center">
     <canvas id="canvas" width="716" height="573"></canvas>
     <br />
@@ -426,6 +426,12 @@ var leftBtn = document.getElementById('leftBtn');
 var rightBtn = document.getElementById('rightBtn');
 var jumpBtn = document.getElementById('jumpBtn');
 
+document.getElementById('body').addEventListener('touchstart', function(e){
+  e.preventDefault()
+})
+document.getElementById('body').addEventListener('touchend', function(e){
+  e.preventDefault()
+})
 
 leftBtn.addEventListener('touchstart', function(e){
   e.preventDefault()
