@@ -10,10 +10,16 @@
   canvas {border: 0px solid black;}
   .bottompane {display: inline;}
   .btn {
-    width: 50%;
-    height: 50px;
+    width: 49.69%;
+    height: 90px;
     border: 1px solid black;
-    background: yellow;
+    background: rgb(6, 47, 231);
+  }
+  .jumpBtn {
+    width: 100%;
+    height: 90px;
+    background: rgb(3, 62, 255);
+    color: white;
   }
   </style>
 </head>
@@ -21,7 +27,10 @@
   <div align="center">
     <canvas id="canvas" width="716" height="573"></canvas>
     <br />
-    <input class="btn" id="leftBtn" type="button" /><input class="btn" id="rightBtn" type="button" />
+    <input class="btn" id="leftBtn" type="button" value="Left"/>
+    <input class="btn" id="rightBtn" type="button" value="Right"/>
+    <br />
+    <input type="button" id="jumpBtn" class="jumpBtn" value="Jump"/>
     <div class="bottompane">
     <p>Score: </p><p id="score">0</p><input type="button" id="Restart" value="Restart" onclick="location = location;" />
     </div>
@@ -415,42 +424,41 @@ if(spawn ==  true) {
 //BUTTON MOVE FUNCTIONS
 var leftBtn = document.getElementById('leftBtn');
 var rightBtn = document.getElementById('rightBtn');
+var jumpBtn = document.getElementById('jumpBtn');
 
-var leftMove;
-var rightMove;
+
 leftBtn.addEventListener('touchstart', function(e){
-  
   e.preventDefault()
   keyPush('left')
-  // console.log('interval started');
-  // leftMove = setInterval(function() {
-  //     playerx -= 2;
-  // }, 15);
 })
 leftBtn.addEventListener('touchend', function(e){
   e.preventDefault()
   keyLift('left')
-  // clearInterval(leftMove);
-  // console.log(leftMove)
 })
 
 rightBtn.addEventListener('touchstart', function(e){
   e.preventDefault()
   keyPush('right')
-  // rightMove = setInterval(function() {
-  //     playerx += 2;
-  // }, 15);
 })
 rightBtn.addEventListener('touchend', function(e){
   e.preventDefault()
   keyLift('right')
-  // clearInterval(rightMove);
 })
 
+jumpBtn.addEventListener('touch', function(e){
+  e.preventDefault()
+  keyPush('jump')
+})
 
 
 //#####################KEY FUNCTIONS################################
     function keyPush(evt) {
+      if(evt === 'jump') {
+        if(grounded == true) {
+          pos = playery;
+          jump = true; 
+        }
+      }
       if(evt === 'left') {
         if(playera == true) {
           left = true;
