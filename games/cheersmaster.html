@@ -419,6 +419,7 @@ var leftMove;
 var rightMove;
 leftBtn.addEventListener('touchstart', function(){
   // keyPush('left')
+  preventDefault()
   console.log('interval started');
   leftMove = setInterval(function() {
       playerx -= 2;
@@ -426,18 +427,21 @@ leftBtn.addEventListener('touchstart', function(){
 })
 leftBtn.addEventListener('touchend', function(){
   // keyLift('left')
+  preventDefault()
   clearInterval(leftMove);
   console.log(leftMove)
 })
 
 rightBtn.addEventListener('touchstart', function(){
   // keyPush('right')
+  preventDefault()
   rightMove = setInterval(function() {
       playerx += 2;
   }, 15);
 })
 rightBtn.addEventListener('touchend', function(){
   // keyLift('right')
+  preventDefault()
   clearInterval(rightMove);
 })
 
