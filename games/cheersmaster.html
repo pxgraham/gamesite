@@ -409,18 +409,30 @@ if(spawn ==  true) {
 var leftBtn = document.getElementById('leftBtn');
 var rightBtn = document.getElementById('rightBtn');
 
-leftBtn.addEventListener('touchend', function(){
-  keyLift('left')
-})
+var leftMove;
+var rightMove;
 leftBtn.addEventListener('touchstart', function(){
-  keyPush('left')
+  // keyPush('left')
+  console.log('interval started');
+  leftMove = setInterval(function() {
+      playerx -= 2;
+  }, 15);
+})
+leftBtn.addEventListener('touchend', function(){
+  // keyLift('left')
+  clearInterval(leftMove);
+  console.log(leftMove)
 })
 
-rightBtn.addEventListener('touchend', function(){
-  keyLift('right')
-})
 rightBtn.addEventListener('touchstart', function(){
-  keyPush('right')
+  // keyPush('right')
+  rightMove = setInterval(function() {
+      playerx += 2;
+  }, 15);
+})
+rightBtn.addEventListener('touchend', function(){
+  // keyLift('right')
+  clearInterval(rightMove);
 })
 
 
