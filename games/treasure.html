@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    body {overflow: hidden;}
+    canvas {border: 7px solid black;}
+  </style>
+</head>
+<body onload="start();">
+
+<div align="center">
+    <input type="button" id="res" value="RESTART" style="width: 767px; height: 25px; background-color: lime; border: none; font-size: 20px; margin: -5px: font-size: 20px; font-weight: bold; letter-spacing: 10px;" onclick="location = location;"/>
+    <input type="button" value="Time: " style="width: 65px; height: 25px; background-color: white; border: 0px solid black; text-align: left; font-size: 20px; background-color: grey; margin: -5px; color: white;" />
+     <input type="button" id="time" value="60" style="width: 65px; height: 25px; background-color: white; border: 0px solid black; text-align: left; font-size: 20px; background-color: grey; margin: -5px; color: white; letter-spacing: 10px;" />
+     <input type="button" value="Score: " style="width: 70px; height: 25px; background-color: cyan; border: 0px solid black; font-size: 20px; margin: -5px; text-align: left;" /> 
+     <input type="button" id="score" value="0" style="width: 65px; height: 25px; background-color: cyan; border: 0px solid black; font-size: 20px; margin: -5px; text-align: left; text-align: center;" /> 
+</div>
+  <div align="center" style="line-height: 0px; margin: 0px;">
+    <canvas id="canvas" width="1000" height="500"></canvas>
+<br>
+   <!-- <div> -->
+     <p style="background-color: red; display: inline-block; width: 255px; height: 50px; margin: -2px; border: 2px solid black;"></p>
+     <p style="background-color: cyan; display: inline-block; width: 255px; height: 50px; margin: -2px; border: 2px solid black;"></p>
+     <p style="background-color: lime; display: inline-block; width: 255px; height: 50px; margin: -2px; border: 2px solid black;"></p>
+     <p style="background-color: magenta; display: inline-block; width: 255px; height: 50px; margin: -2px; border: 2px solid black;"></p>
+     <br>
+     <p style="background-color: red; display: inline-block; width: 255px; font-size: 30px; font-family: comic sans ms;">Slow</p>
+     <p style="background-color: cyan; display: inline-block; width: 255px; font-size: 30px; font-family: comic sans ms;">Speed</p>
+     <p style="background-color: lime; display: inline-block; width: 255px; font-size: 30px; font-family: comic sans ms;">Grow</p>
+     <p style="background-color: magenta; display: inline-block; width: 255px; font-size: 30px; font-family: comic sans ms;">Shrink</p>
+   <!-- </div> -->
+
+  </div>
+
+  <script type="text/javascript">
+
+    canvas=document.getElementById('canvas');
+    ctx=canvas.getContext('2d');
+
+    playerc="black";
+    playerx=765;
+    playery=20;
+    playerw=20;
+    playerh=20;
+    players=5;
+
+    blockc1="cyan";
+    blockx1=1000;
+    blocky1=Math.random() * 480;
+    blockw1=20;
+    blockh1=20;
+
+    blockleft=true;
+    blockright=false;
+    blockdown=false;
+    blockup=false;
+  
+    block1c1="red";
+    block1x1=1000;
+    block1y1=Math.random() * 480;
+    block1w1=20;
+    block1h1=20;
+
+    block1left=true;
+    block1right=false;
+    block1down=false;
+    block1up=false;
+
+    block2c1="lime";
+    block2x1=1000;
+    block2y1=Math.random() * 480;
+    block2w1=20;
+    block2h1=20;
+
+    block2left=true;
+    block2right=false;
+    block2down=false;
+    block2up=false;
+
+    block3c1="magenta";
+    block3x1=1000;
+    block3y1=Math.random() * 480;
+    block3w1=20;
+    block3h1=20;
+
+    block3left=true;
+    block3right=false;
+    block3down=false;
+    block3up=false;
+
+    var rand = Math.random() * 100;
+    up=false;
+    down=false;
+    left=false;
+    right=false;
+    var seconds = 60;
+    var score = 0;
+    var blocks = 1;
+    var flash = false;
+
+
+    function start() {
+      document.addEventListener('keydown', keyPush);
+      document.addEventListener('keyup', keyLift);
+      setInterval(timer, 1000);
+      setInterval(game, 15);
+    }
+    function timer() {
+       seconds--
+       if(seconds <= 0) {
+           seconds = 0;
+       }
+       document.getElementById('time').value = seconds;
+    }
+
+    function game() {
+      update();
+      ctx.fillStyle = "black";
+      ctx.fillRect(playerx, playery, playerw, playerh);
+
+      ctx.fillStyle = blockc1;
+      ctx.fillRect(blockx1, blocky1, blockw1, blockh1);
+
+      ctx.fillStyle = block1c1;
+      ctx.fillRect(block1x1, block1y1, block1w1, block1h1);
+
+      ctx.fillStyle = block2c1;
+      ctx.fillRect(block2x1, block2y1, block2w1, block2h1);
+
+      ctx.fillStyle = block3c1;
+      ctx.fillRect(block3x1, block3y1, block3w1, block3h1);
+
+      if(seconds == 0) {
+          ctx.font = "40px comic sans ms"
+          ctx.fillText("TIME UP! FINAL SCORE: " + score, canvas.width/3, canvas.height/2);
+          players = 0;
+          blocks = 0;
+      }
+
+
+
+
+//#################IF BLOCK LEFT#################################################
+      if(blockleft == true) {
+        blockx1 -= blocks;
+        
+        if(playerx + playerw >= blockx1 && playery + playerh >= blocky1 && playery <= blocky1 + blockh1 && playerx <= blockx1 + blockw1) { 
+           score += 1;
+           document.getElementById('score').value = score;
+           players += 1;
+           decideleft(); 
+
+        } else if (blockx1 + blockw1 < 0) {
+
+           decideleft();
+
+        }
+      }
+//#################IF BLOCK LEFT END############################################
+
+//##############################################################################
+
+//#################IF BLOCK DOWN##############################################
+
+      if(blockdown == true) {
+        blocky1 += blocks;
+
+        if(playerx + playerw >= blockx1 && playery + playerh >= blocky1 && playery <= blocky1 + blockh1 && playerx <= blockx1 + blockw1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players += 1;
+           decidedown();
+
+        } else if (blocky1 > 500) {
+
+           decidedown();
+
+        }
+      }
+//#################IF BLOCKDOWN END############################################
+//##############################################################################
+//#################BLOCK UP START################################################
+
+      if(blockup == true) {
+        blocky1 -= blocks;
+
+        if(playerx + playerw >= blockx1 && playery + playerh >= blocky1 && playery <= blocky1 + blockh1 && playerx <= blockx1 + blockw1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players += 1;
+           decideup();
+
+        } else if (blocky1 + blockh1 < 0) {
+
+           decideup();
+
+        }
+      }
+
+//#################BLOCK UP END################################################
+//##############################################################################
+//#################BLOCK RIGHT START################################################
+
+      if(blockright == true) {
+        blockx1 += blocks;
+
+        if(playerx + playerw >= blockx1 && playery + playerh >= blocky1 && playery <= blocky1 + blockh1 && playerx <= blockx1 + blockw1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players += 1;
+           decideright();
+
+        } else if (blockx1 > 1000) {
+
+           decideright();
+
+        }
+      }
+
+//#################BLOCK RIGHT END################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#################IF block1 LEFT#################################################
+      if(block1left == true) {
+        block1x1 -= blocks;
+
+        if(playerx + playerw >= block1x1 && playery + playerh >= block1y1 && playery <= block1y1 + block1h1 && playerx <= block1x1 + block1w1) { 
+           score += 1;
+           document.getElementById('score').value = score;
+           players = players / 2;
+           decide1left(); 
+
+        } else if (block1x1 + block1w1 < 0) {
+
+           decide1left();
+
+        }
+      }
+//#################IF block1 LEFT END############################################
+
+//##############################################################################
+
+//#################IF block1 DOWN##############################################
+
+      if(block1down == true) {
+        block1y1 += blocks;
+
+        if(playerx + playerw >= block1x1 && playery + playerh >= block1y1 && playery <= block1y1 + block1h1 && playerx <= block1x1 + block1w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players = players / 2;
+           decide1down();
+
+        } else if (block1y1 > 500) {
+
+           decide1down();
+
+        }
+      }
+//#################IF block1DOWN END############################################
+//##############################################################################
+//#################block1 UP START################################################
+
+      if(block1up == true) {
+        block1y1 -= blocks;
+
+        if(playerx + playerw >= block1x1 && playery + playerh >= block1y1 && playery <= block1y1 + block1h1 && playerx <= block1x1 + block1w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players = players / 2;
+           decide1up();
+
+        } else if (block1y1 + block1h1 < 0) {
+
+           decide1up();
+
+        }
+      }
+
+//#################block1 UP END################################################
+//##############################################################################
+//#################block1 RIGHT START################################################
+
+      if(block1right == true) {
+        block1x1 += blocks;
+
+        if(playerx + playerw >= block1x1 && playery + playerh >= block1y1 && playery <= block1y1 + block1h1 && playerx <= block1x1 + block1w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           players = players / 2;
+           decide1right();
+
+        } else if (block1x1 > 1000) {
+
+           decide1right();
+
+        }
+      }
+
+//#################block1 RIGHT END################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#################IF block2 LEFT#################################################
+      if(block2left == true) {
+        block2x1 -= blocks;
+
+        if(playerx + playerw >= block2x1 && playery + playerh >= block2y1 && playery <= block2y1 + block2h1 && playerx <= block2x1 + block2w1) { 
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw += 5;
+           playerh += 5;
+           decide2left(); 
+
+        } else if (block2x1 + block2w1 < 0) {
+
+           decide2left();
+
+        }
+      }
+//#################IF block2 LEFT END############################################
+
+//##############################################################################
+
+//#################IF block2 DOWN##############################################
+
+      if(block2down == true) {
+        block2y1 += blocks;
+
+        if(playerx + playerw >= block2x1 && playery + playerh >= block2y1 && playery <= block2y1 + block2h1 && playerx <= block2x1 + block2w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw += 5;
+           playerh += 5;
+           decide2down();
+
+        } else if (block2y1 > 500) {
+
+           decide2down();
+
+        }
+      }
+//#################IF block2DOWN END############################################
+//##############################################################################
+//#################block2 UP START################################################
+
+      if(block2up == true) {
+        block2y1 -= blocks;
+
+        if(playerx + playerw >= block2x1 && playery + playerh >= block2y1 && playery <= block2y1 + block2h1 && playerx <= block2x1 + block2w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw += 5;
+           playerh += 5;
+           decide2up();
+
+        } else if (block2y1 + block2h1 < 0) {
+
+           decide2up();
+
+        }
+      }
+
+//#################block2 UP END################################################
+//##############################################################################
+//#################block2 RIGHT START################################################
+
+      if(block2right == true) {
+        block2x1 += blocks;
+
+        if(playerx + playerw >= block2x1 && playery + playerh >= block2y1 && playery <= block2y1 + block2h1 && playerx <= block2x1 + block2w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw += 5;
+           playerh += 5;
+           decide2right();
+
+        } else if (block2x1 > 1000) {
+
+           decide2right();
+
+        }
+      }
+
+//#################block2 RIGHT END################################################
+
+
+
+
+
+
+
+
+
+//#################IF block3 LEFT#################################################
+      if(block3left == true) {
+        block3x1 -= blocks;
+
+        if(playerx + playerw >= block3x1 && playery + playerh >= block3y1 && playery <= block3y1 + block3h1 && playerx <= block3x1 + block3w1) { 
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw /= 1.5;
+           playerh /= 1.5;
+           decide3left(); 
+
+        } else if (block3x1 + block3w1 < 0) {
+
+           decide3left();
+
+        }
+      }
+//#################IF block3 LEFT END############################################
+
+//##############################################################################
+
+//#################IF block3 DOWN##############################################
+
+      if(block3down == true) {
+        block3y1 += blocks;
+
+        if(playerx + playerw >= block3x1 && playery + playerh >= block3y1 && playery <= block3y1 + block3h1 && playerx <= block3x1 + block3w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw /= 1.5;
+           playerh /= 1.5;
+           decide3down();
+
+        } else if (block3y1 > 500) {
+
+           decide3down();
+
+        }
+      }
+//#################IF block3DOWN END############################################
+//##############################################################################
+//#################block3 UP START################################################
+
+      if(block3up == true) {
+        block3y1 -= blocks;
+
+        if(playerx + playerw >= block3x1 && playery + playerh >= block3y1 && playery <= block3y1 + block3h1 && playerx <= block3x1 + block3w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw /= 1.5;
+           playerh /= 1.5;
+           decide3up();
+
+        } else if (block3y1 + block3h1 < 0) {
+
+           decide3up();
+
+        }
+      }
+
+//#################block3 UP END################################################
+//##############################################################################
+//#################block3 RIGHT START################################################
+
+      if(block3right == true) {
+        block3x1 += blocks;
+
+        if(playerx + playerw >= block3x1 && playery + playerh >= block3y1 && playery <= block3y1 + block3h1 && playerx <= block3x1 + block3w1) {
+           score += 1;
+           document.getElementById('score').value = score;
+           playerw /= 1.5;
+           playerh /= 1.5;
+           decide3right();
+
+        } else if (block3x1 > 1000) {
+
+           decide3right();
+
+        }
+      }
+
+//#################block3 RIGHT END################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#################PLAYER BORDER CONSTRAINT#############
+      if(playerx + playerw < 0) {
+        playerx = 1000;
+      }
+      if(playerx > 1000) {
+        playerx = 0;
+      }
+      if(playery + playerh < 0) {
+        playery = 500;
+      }
+      if(playery > 500) {
+        playery = 0;
+      }
+
+//################PLAYER MOVEMENT. PLAYER POSITION + PLAYER SPEED############
+      if(down==true) {
+        playery+=players;
+      }
+      if(up==true) {
+        playery-=players;
+      }
+      if(left==true) {
+        playerx-=players;
+      }
+      if(right==true) {
+        playerx+=players;
+      }
+    } 
+//###########END OF GAME FUNCTION############################################
+
+
+
+
+
+ function decideleft() {
+    rand = Math.random() * 100;
+    blockx1 = 1000;
+    blocky1 = Math.random() * 480;
+
+    if(rand < 25) {
+      blocky1 = 0;
+      blockx1 = Math.random() * 980;
+      blockdown=true;
+      blockleft=false;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 25 && rand < 50) {
+      blockdown=false;
+      blockleft=true;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 50 && rand < 75) {
+      blockx1 = Math.random() * 980;
+      blocky1 = 500;
+      blockup=true;
+      blockdown=false;
+      blockleft=false;
+      blockright=false;
+    } else if(rand >= 75) {
+      blockx1 = 0;
+      blocky1 = Math.random() * 480;
+      blockright=true;
+      blockleft=false;
+      blockup=false;
+      blockdown=false;
+    }
+}
+
+function decidedown() {
+    rand = Math.random() * 100;
+    blocky1 = 0;
+    blockx1 = Math.random() * 980;
+
+    if(rand < 25) {
+      blockdown=true;
+      blockleft=false;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 25 && rand < 50) {
+      blockx1 = 1000;
+      blocky1 = Math.random() * 480;
+      blockdown=false;
+      blockleft=true;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 50 && rand < 75) {
+      blockx1 = Math.random() * 980;
+      blocky1 = 500;
+      blockdown=false;
+      blockleft=false;
+      blockup=true;
+      blockright=false;
+    } else if(rand >= 75) {
+      blockx1 = 0;
+      blocky1 = Math.random() * 480;
+      blockright=true;
+      blockleft=false;
+      blockup=false;
+      blockdown=false;
+    }
+}
+
+function decideup() {
+    rand = Math.random() * 100;
+    blockx1 = Math.random() * 980;
+    blocky1 = 500;
+
+    if(rand < 25) {
+      blockdown=false;
+      blockleft=false;
+      blockright=false;
+      blockup=true;
+    } else if(rand >= 25 && rand < 50) {
+      blocky1 = 0;
+      blockx1 = Math.random() * 980;
+      blockdown=true;
+      blockleft=false;
+      blockright=false;
+      blockup=false;
+    } else if(rand >= 50 && rand < 75) {
+      blockx1 = 1000;
+      blocky1 = Math.random() * 480;
+      blockdown=false;
+      blockleft=true;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 75) {
+      blockx1 = 0;
+      blocky1 = Math.random() * 480;
+      blockright=true;
+      blockleft=false;
+      blockup=false;
+      blockdown=false;
+    }   
+}
+function decideright() {
+    rand = Math.random() * 100;
+    blockx1 = 0;
+    blocky1 = Math.random() * 480;
+
+    if(rand < 25) {
+      blocky1 = 0;
+      blockx1 = Math.random() * 980;
+      blockdown=true;
+      blockleft=false;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 25 && rand < 50) {
+      blockx1 = 1000;
+      blocky1 = Math.random () * 480;
+      blockdown=false;
+      blockleft=true;
+      blockup=false;
+      blockright=false;
+    } else if(rand >= 50 && rand < 75) {
+      blockx1 = Math.random() * 980;
+      blocky1 = 500;
+      blockup=true;
+      blockdown=false;
+      blockleft=false;
+      blockright=false;
+    } else if(rand >= 75) {
+      blockright=true;
+      blockleft=false;
+      blockup=false;
+      blockdown=false;
+    }
+}
+
+//########################################################################################################################################
+function decide1left() {
+    rand = Math.random() * 100;
+    block1x1 = 1000;
+    block1y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block1y1 = 0;
+      block1x1 = Math.random() * 980;
+      block1down=true;
+      block1left=false;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block1down=false;
+      block1left=true;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block1x1 = Math.random() * 980;
+      block1y1 = 500;
+      block1up=true;
+      block1down=false;
+      block1left=false;
+      block1right=false;
+    } else if(rand >= 75) {
+      block1x1 = 0;
+      block1y1 = Math.random() * 480;
+      block1right=true;
+      block1left=false;
+      block1up=false;
+      block1down=false;
+    }
+}
+
+function decide1down() {
+    rand = Math.random() * 100;
+    block1y1 = 0;
+    block1x1 = Math.random() * 980;
+
+    if(rand < 25) {
+      block1down=true;
+      block1left=false;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block1x1 = 1000;
+      block1y1 = Math.random() * 480;
+      block1down=false;
+      block1left=true;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block1x1 = Math.random() * 980;
+      block1y1 = 500;
+      block1down=false;
+      block1left=false;
+      block1up=true;
+      block1right=false;
+    } else if(rand >= 75) {
+      block1x1 = 0;
+      block1y1 = Math.random() * 480;
+      block1right=true;
+      block1left=false;
+      block1up=false;
+      block1down=false;
+    }
+}
+
+function decide1up() {
+    rand = Math.random() * 100;
+    block1x1 = Math.random() * 980;
+    block1y1 = 500;
+
+    if(rand < 25) {
+      block1down=false;
+      block1left=false;
+      block1right=false;
+      block1up=true;
+    } else if(rand >= 25 && rand < 50) {
+      block1y1 = 0;
+      block1x1 = Math.random() * 980;
+      block1down=true;
+      block1left=false;
+      block1right=false;
+      block1up=false;
+    } else if(rand >= 50 && rand < 75) {
+      block1x1 = 1000;
+      block1y1 = Math.random() * 480;
+      block1down=false;
+      block1left=true;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 75) {
+      block1x1 = 0;
+      block1y1 = Math.random() * 480;
+      block1right=true;
+      block1left=false;
+      block1up=false;
+      block1down=false;
+    }   
+}
+function decide1right() {
+    rand = Math.random() * 100;
+    block1x1 = 0;
+    block1y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block1y1 = 0;
+      block1x1 = Math.random() * 980;
+      block1down=true;
+      block1left=false;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block1x1 = 1000;
+      block1y1 = Math.random () * 480;
+      block1down=false;
+      block1left=true;
+      block1up=false;
+      block1right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block1x1 = Math.random() * 980;
+      block1y1 = 500;
+      block1up=true;
+      block1down=false;
+      block1left=false;
+      block1right=false;
+    } else if(rand >= 75) {
+      block1right=true;
+      block1left=false;
+      block1up=false;
+      block1down=false;
+    }
+}
+//################################################################################################################################################
+function decide2left() {  
+    rand = Math.random() * 100;
+    block2x1 = 1000;
+    block2y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block2y1 = 0;
+      block2x1 = Math.random() * 980;
+      block2down=true;
+      block2left=false;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block2down=false;
+      block2left=true;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block2x1 = Math.random() * 980;
+      block2y1 = 500;
+      block2up=true;
+      block2down=false;
+      block2left=false;
+      block2right=false;
+    } else if(rand >= 75) {
+      block2x1 = 0;
+      block2y1 = Math.random() * 480;
+      block2right=true;
+      block2left=false;
+      block2up=false;
+      block2down=false;
+    }
+}
+
+function decide2down() {
+    rand = Math.random() * 100;
+    block2y1 = 0;
+    block2x1 = Math.random() * 980;
+
+    if(rand < 25) {
+      block2down=true;
+      block2left=false;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block2x1 = 1000;
+      block2y1 = Math.random() * 480;
+      block2down=false;
+      block2left=true;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block2x1 = Math.random() * 980;
+      block2y1 = 500;
+      block2down=false;
+      block2left=false;
+      block2up=true;
+      block2right=false;
+    } else if(rand >= 75) {
+      block2x1 = 0;
+      block2y1 = Math.random() * 480;
+      block2right=true;
+      block2left=false;
+      block2up=false;
+      block2down=false;
+    }
+}
+
+function decide2up() {
+    rand = Math.random() * 100;
+    block2x1 = Math.random() * 980;
+    block2y1 = 500;
+
+    if(rand < 25) {
+      block2down=false;
+      block2left=false;
+      block2right=false;
+      block2up=true;
+    } else if(rand >= 25 && rand < 50) {
+      block2y1 = 0;
+      block2x1 = Math.random() * 980;
+      block2down=true;
+      block2left=false;
+      block2right=false;
+      block2up=false;
+    } else if(rand >= 50 && rand < 75) {
+      block2x1 = 1000;
+      block2y1 = Math.random() * 480;
+      block2down=false;
+      block2left=true;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 75) {
+      block2x1 = 0;
+      block2y1 = Math.random() * 480;
+      block2right=true;
+      block2left=false;
+      block2up=false;
+      block2down=false;
+    }   
+}
+function decide2right() {
+    rand = Math.random() * 100;
+    block2x1 = 0;
+    block2y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block2y1 = 0;
+      block2x1 = Math.random() * 980;
+      block2down=true;
+      block2left=false;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block2x1 = 1000;
+      block2y1 = Math.random () * 480;
+      block2down=false;
+      block2left=true;
+      block2up=false;
+      block2right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block2x1 = Math.random() * 980;
+      block2y1 = 500;
+      block2up=true;
+      block2down=false;
+      block2left=false;
+      block2right=false;
+    } else if(rand >= 75) {
+      block2right=true;
+      block2left=false;
+      block2up=false;
+      block2down=false;
+    }
+}
+
+//########################################################################################
+function decide3left() {  
+    rand = Math.random() * 100;
+    block3x1 = 1000;
+    block3y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block3y1 = 0;
+      block3x1 = Math.random() * 980;
+      block3down=true;
+      block3left=false;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block3down=false;
+      block3left=true;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block3x1 = Math.random() * 980;
+      block3y1 = 500;
+      block3up=true;
+      block3down=false;
+      block3left=false;
+      block3right=false;
+    } else if(rand >= 75) {
+      block3x1 = 0;
+      block3y1 = Math.random() * 480;
+      block3right=true;
+      block3left=false;
+      block3up=false;
+      block3down=false;
+    }
+}
+
+function decide3down() {
+    rand = Math.random() * 100;
+    block3y1 = 0;
+    block3x1 = Math.random() * 980;
+
+    if(rand < 25) {
+      block3down=true;
+      block3left=false;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block3x1 = 1000;
+      block3y1 = Math.random() * 480;
+      block3down=false;
+      block3left=true;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block3x1 = Math.random() * 980;
+      block3y1 = 500;
+      block3down=false;
+      block3left=false;
+      block3up=true;
+      block3right=false;
+    } else if(rand >= 75) {
+      block3x1 = 0;
+      block3y1 = Math.random() * 480;
+      block3right=true;
+      block3left=false;
+      block3up=false;
+      block3down=false;
+    }
+}
+
+function decide3up() {
+    rand = Math.random() * 100;
+    block3x1 = Math.random() * 980;
+    block3y1 = 500;
+
+    if(rand < 25) {
+      block3down=false;
+      block3left=false;
+      block3right=false;
+      block3up=true;
+    } else if(rand >= 25 && rand < 50) {
+      block3y1 = 0;
+      block3x1 = Math.random() * 980;
+      block3down=true;
+      block3left=false;
+      block3right=false;
+      block3up=false;
+    } else if(rand >= 50 && rand < 75) {
+      block3x1 = 1000;
+      block3y1 = Math.random() * 480;
+      block3down=false;
+      block3left=true;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 75) {
+      block3x1 = 0;
+      block3y1 = Math.random() * 480;
+      block3right=true;
+      block3left=false;
+      block3up=false;
+      block3down=false;
+    }   
+}
+function decide3right() {
+    rand = Math.random() * 100;
+    block3x1 = 0;
+    block3y1 = Math.random() * 480;
+
+    if(rand < 25) {
+      block3y1 = 0;
+      block3x1 = Math.random() * 980;
+      block3down=true;
+      block3left=false;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 25 && rand < 50) {
+      block3x1 = 1000;
+      block3y1 = Math.random () * 480;
+      block3down=false;
+      block3left=true;
+      block3up=false;
+      block3right=false;
+    } else if(rand >= 50 && rand < 75) {
+      block3x1 = Math.random() * 980;
+      block3y1 = 500;
+      block3up=true;
+      block3down=false;
+      block3left=false;
+      block3right=false;
+    } else if(rand >= 75) {
+      block3right=true;
+      block3left=false;
+      block3up=false;
+      block3down=false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//################################################################################################################################################
+   function keyPush(evt) {
+      switch(evt.keyCode) {
+        case 32: //SPACE
+          playery += 10;
+          break;
+        case 38: //UP
+          up=true;
+          break;
+        case 40: //DOWN
+          down=true;
+          break;
+        case 37: //LEFT
+            left=true;
+          break;
+        case 39: //RIGHT
+          right=true;
+          break;                     
+      }
+    }
+
+    function keyLift(evt) {
+      switch(evt.keyCode) {
+        case 38: //UP
+          up=false;
+          break;
+        case 40: //DOWN
+          down=false;
+          break;
+        case 37: //LEFT
+          left=false;
+          break;
+        case 39: //RIGHT
+          right=false;
+          break;                              
+      }
+    }
+
+    function update() {
+      ctx.fillStyle="white";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+  </script>
+</body>
+</html>

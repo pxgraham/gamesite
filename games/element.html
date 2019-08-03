@@ -18,8 +18,8 @@
                         left: 200px;
                         background: white;
                         top: 800px;
-                        width: 150px;
-                        height: 150px;
+                        width: 100%;
+                        height: 1000px;
                 }
                 .downbtn {
                         position: fixed;
@@ -61,10 +61,10 @@
                         width: 150px;
                         height: 600px;       
                 }
-                .btn {
+                /* .btn {
                         font-size: 100px;
                         text-align: center;
-                }
+                } */
         </style>
 </head>
 
@@ -72,6 +72,7 @@
 
         <div align="center">
                 <canvas id="canvas" width="1000px" height="700px"></canvas>
+                <p id="stats" style="color: white"></p>
                 <div id="upBtn" class="upbtn btn">
                         u
                 </div>
@@ -91,8 +92,9 @@
                         b
                 </div>
         </div>
-
+        <script src="scripts/VirtualJoystick.js"></script>
         <script type="text/javascript">
+        
 
                 var canvas = document.getElementById('canvas');
                 var ctx = canvas.getContext('2d');
@@ -541,6 +543,33 @@
 82: r
 
 end of reference codes*/
+
+        //virtual joystick 
+
+        console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+	
+        var joystick	= new VirtualJoystick({
+                container	: upBtn,
+                mouseSupport	: true,
+        });
+        joystick.addEventListener('touchStart', function(){
+                console.log('down')
+        })
+        joystick.addEventListener('touchEnd', function(){
+                console.log('up')
+        })
+
+        setInterval(function(){
+                var outputEl	= document.getElementById('stats');
+                outputEl.innerHTML	= '<b>Result:</b> '
+                        + ' dx:'+joystick.deltaX()
+                        + ' dy:'+joystick.deltaY()
+                        + (joystick.right()	? ' right'	: '')
+                        + (joystick.up()	? ' up'		: '')
+                        + (joystick.left()	? ' left'	: '')
+                        + (joystick.down()	? ' down' 	: '')	
+        }, 1/30 * 1000);
+
         </script>
 
 </body>

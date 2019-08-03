@@ -8,23 +8,49 @@
     <title>Document</title>
     <style type="text/css">
         .game {
-            width: 100px;
-            height: 100px;
-            border: 1px solid black;
-            margin: 20px;
+            width: 300px;
+            height: 166px;
+            margin: auto;
+        }
+        .header-background {
+            background-image: url('games/images/background.png');
+            height: 100%;
+            width: 100%;
+        }
+        .background {
+            background-image: url('games/images/mainbackground.png');
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
-<body style="font-family: verdana">
-    <div class="container">
-        <div class="row bg-light">
-            <div class="col text-center">
+<body style="font-family: verdana; background: url(games/images/background.png);">
+
+            <div class="card text-center">
+                    <div class="card-header  header-background" style="border: 0px dotted;">
+                      <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                          <span class="nav-link bg-dark text-light" href="#" style="border: 5px dashed white">Full Block Games</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div class="card-body background">
+      
+                        <div id="gamelist" class="row">
+                        </div>
+                        <!-- <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                  </div>
+                  
+        <!-- <div class="row bg-dark">
+             <div class="col text-center">
                 <h1>Full Block Games</h1>
-            </div>        
-        </div>
-        <div id="gamelist" class="row">
-        </div>
-    </div>
+            </div>         
+        </div> -->
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -56,19 +82,53 @@
             name: 'Ghost Summoner',
             link: './games/ghostSummoner.html'
         },
+        {
+            name: 'Collecter',
+            link: './games/treasure.html'
+        },
     ]
 
     for(var i = 0; i < gamelist.length; i++) {
 
-        var game = $('<div>');
-        game.addClass('game');   
+        var card = $('<div>').addClass('game card text-white bg-dark mb-3')
+                    .append(
+                        $('<div>').addClass('card-header')
+                            .append( $('<a>')
+                                .attr('href', gamelist[i].link)
+                                .attr('target', '_blank')
+                                .text(gamelist[i].name)
+                            )
+                    )
+                    .append(
+                        $('<div>').addClass('card-body')
+                            .attr('style', 'padding: 0px;')
+                            // .append(
+                            //     $('<h5>')
+                            // )
+                            // .append( $('<a>')
+                            //     .attr('href', gamelist[i].link)
+                            //     .attr('target', '_blank')
+                            //     .text(gamelist[i].name)
+                            // )
+                            .append(
+                                $('<img>')
+                                    .attr('src', 'games/images/background.png')
+                                    .attr('style', 'width: 100%; height: 69%;')
+                                    .attr('onclick', 'console.log("hi")')
+                            )
+   
+                    )
+        // var cardHeader = $('<div>').addClass('card-header');
         
-        var link = $('<a>');
-        link.attr('href', gamelist[i].link);
-        link.attr('target', '_blank');
-        link.text(gamelist[i].name);
+        var game = $('<div>');
+        game.addClass('col text-center'); 
+        
+        // var link = $('<a>');
+        // link.attr('href', gamelist[i].link);
+        // link.attr('target', '_blank');
+        // link.text(gamelist[i].name);
 
-        game.append(link);
+        game.append(card);
         
         $('#gamelist').append(game);
     }
