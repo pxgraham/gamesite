@@ -26,9 +26,7 @@ function getMousePos(joystickpad, mouseEvent) {
 
 var interval;
 joystickpad.addEventListener("touchmove", function(e) {
-        // interval = setInterval(function() {
-        
-        // interal = setInterval(game, 500)        
+                       
         var m = getMousePos(joystickpad, e);
         
         if (m.x < cX) {
@@ -53,8 +51,26 @@ Distance:   ${tD}px ${cX} 30
         yPos = m.y - 80;
         deg = pos;
         dist = tD;
-    // }, 250)
-        joystickrender()
+
+    joystickrender()
+
+    if(xPos > 169) {
+        right = true;
+        left = false;
+    }
+    if(xPos < 169) {
+        left = true;
+        right = false;
+    }
+    if(yPos < 179) {
+        up = true;
+        down = false;
+    }
+    if(yPos > 179) {
+        up = false;
+        down = true;
+    }
+        
 
   }, false);
 
@@ -63,6 +79,46 @@ function joystickrender() {
     jctx.fillRect(xPos, yPos, 15, 15);
 }
 
+joystickpad.addEventListener('touchstart', function(e) {
+    var m = getMousePos(joystickpad, e);
+        
+    if (m.x < cX) {
+      if (m.y < cY) pos = 180 + Math.floor(Math.atan((m.y - cY) / (cX - m.x)) * (180 / Math.PI));
+      else pos = 180 + -Math.floor(Math.atan((m.y - cY) / (m.x - cX)) * (180 / Math.PI));
+    } else {
+      if (m.y < cY) pos = - Math.floor(Math.atan((cY - m.y) / (cX - m.x)) * (180 / Math.PI)) ;
+      else pos = 360 + Math.floor(Math.atan((cY - m.y) / (m.x - cX)) * (180 / Math.PI));
+    }
+  
+    // get the distance from the centre
+    tX = Math.abs(cX - m.x);
+    tY = Math.abs(cY - m.y);
+    tD = Math.floor(Math.sqrt(tX * tX + tY * tY));
+    xPos = m.x - 20;
+    yPos = m.y - 80;
+    deg = pos;
+    dist = tD;
+    if(xPos > 169) {
+        right = true;
+        left = false;
+    }
+    if(xPos < 169) {
+        left = true;
+        right = false;
+    }
+    if(yPos < 179) {
+        up = true;
+        down = false;
+    }
+    if(yPos > 179) {
+        up = false;
+        down = true;
+    }
+})
+
 joystickpad.addEventListener('touchend', function(e) {
-    clearInterval(interval);
+    up = false;
+    down = false;
+    left = false;
+    right = false;
 })
