@@ -18,8 +18,8 @@
                         left: 200px;
                         background: white;
                         top: 800px;
-                        width: 100%;
-                        height: 1000px;
+                        width: 150px;
+                        height: 150px; 
                 }
                 .downbtn {
                         position: fixed;
@@ -65,6 +65,19 @@
                         font-size: 100px;
                         text-align: center;
                 } */
+                .joystickContainer {
+                        position: fixed;
+                        width: 350px;
+                        height: 350px;
+                        left: 80px;
+                        background: lime;
+                        top: 800px;
+                }
+                #joystick {
+                        width: 100%;
+                        height: 100%;
+                        border: 1px dashed white;
+                }
         </style>
 </head>
 
@@ -73,7 +86,10 @@
         <div align="center">
                 <canvas id="canvas" width="1000px" height="700px"></canvas>
                 <p id="stats" style="color: white"></p>
-                <div id="upBtn" class="upbtn btn">
+                <div class="joystickContainer">
+                        <canvas id="joystick"></canvas>
+                </div>
+                <!-- <div id="upBtn" class="upbtn btn">
                         u
                 </div>
                 <div id="downBtn" class="downbtn btn">
@@ -84,7 +100,7 @@
                 </div>
                 <div id="rightBtn" class="rightbtn btn">
                         r
-                </div>
+                </div> -->
                 <div id="aBtn" class="abtn btn">
                         a
                 </div>                
