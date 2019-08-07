@@ -75,7 +75,9 @@ Distance:   ${tD}px ${cX} 30
   }, false);
 
 function joystickrender() {
-    jctx.fillStyle = 'black',
+    jctx.fillStyle = 'lime',
+    jctx.fillRect(0, 0, joystickpad.width, joystickpad.height);
+    jctx.fillStyle = 'lime',
     jctx.fillRect(xPos, yPos, 15, 15);
 }
 
