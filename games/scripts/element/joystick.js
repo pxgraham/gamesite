@@ -45,6 +45,7 @@ function getMousePos(pad, mouseEvent) {
 var interval;
 pad.addEventListener("touchmove", function(e) {
     e.preventDefault();
+    e.stopPropagation();
                        
         var m = getMousePos(pad, e);
         
@@ -154,6 +155,7 @@ function joystickrender() {
 
 pad.addEventListener('touchstart', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     var m = getMousePos(pad, e);
         
     if (m.x < cX) {
