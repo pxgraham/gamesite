@@ -103,7 +103,7 @@ Distance:   ${tD}px ${cX} 30
         right = false;
     }
     //bottom right
-    if(initialX > 266 && initialY > 266) {
+    if(initialX > 266 && initialY > 266 && initialX < 350 && initialY < 350) {
         right = true;
         down = true;
         left = false;
