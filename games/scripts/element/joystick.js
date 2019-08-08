@@ -33,6 +33,8 @@ function getMousePos(pad, mouseEvent) {
     
     initialX = mouseEvent.touches[0].clientX - 80;
     initialY = mouseEvent.touches[0].clientY - 800;
+
+    // console.log('moust event touches --- ' + mouseEvent.touches);
     
     return {
       x: mouseEvent.touches[0].clientX - 80,
@@ -71,6 +73,7 @@ Distance:   ${tD}px ${cX} 30
 
     joystickrender()
 
+    //upper left
     if(initialX < 116 && initialY < 116 && initialY) {
         left = true;
         up = true;
