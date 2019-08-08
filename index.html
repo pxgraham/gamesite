@@ -137,7 +137,7 @@
         var menuBtn = document.getElementById('menuBtn');
         var gamelist = $('#gamelist');
         
-        // gamelist.attr('style', 'margin-left: 0px');
+        $('#gamelist').attr('style', 'margin-left: 0px; margin-top: 60px; overflow: hidden;');
         
         var sidenavactive = false;
 
@@ -145,11 +145,11 @@
 
         menuBtn.addEventListener('click', function() {
             if(!sidenavactive) {
-                // gamelist.attr('style', 'margin-left: 100px');
+                $('#gamelist').attr('style', 'margin-left: 100px;  margin-top: 60px; overflow: hidden;');
                 sidenav.style.display = 'block';    
                 sidenavactive = true;
             } else {
-                // gamelist.attr('style', 'margin-left: 0px');
+                $('#gamelist').attr('style', 'margin-left: 0px;  margin-top: 60px; overflow: hidden;');
                 sidenav.style.display = 'none';    
                 sidenavactive = false;            
             }                
