@@ -4,6 +4,8 @@ pad.height = 350;
 var jctx = pad.getContext('2d');
 var rect = pad.getBoundingClientRect();
 
+var stats = document.getElementById('stats');
+
 jctx.fillStyle = 'black';
 jctx.fillRect(116, 0, 10, pad.height);
 jctx.fillRect(233, 0, 10, pad.height);
@@ -41,11 +43,13 @@ function getMousePos(pad, mouseEvent) {
     console.log('moust event touches --- ' + mouseEvent.touches.length);
     
     if(mouseEvent.touches.length === 1) {
+        stats.innerText = `One press~~~`;
         return {
           x: mouseEvent.touches[0].clientX - 80,
           y: mouseEvent.touches[0].clientY - 800
-        };
+        };        
     } else if(mouseEvent.touches.length > 1) {
+        stats.innerText = `TWO presses!!!~~~`;
         return {
             x: mouseEvent.touches[1].clientX - 80,
             y: mouseEvent.touches[1].clientY - 800
