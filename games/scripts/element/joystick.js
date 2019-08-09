@@ -49,7 +49,7 @@ function getMousePos(pad, mouseEvent) {
           y: mouseEvent.touches[0].clientY - 800
         };        
     } else if(mouseEvent.touches.length > 1) {
-        stats.innerText = `1 tap: First array coords: x:${Math.round(mouseEvent.touches[1].clientX)} y:${Math.round(mouseEvent.touches[1].clientY)}`;
+        stats.innerText = `2 tap: First array coords: x:${Math.round(mouseEvent.touches[1].clientX)} y:${Math.round(mouseEvent.touches[1].clientY)}`;
         return {
             x: mouseEvent.touches[0].clientX - 80,
             y: mouseEvent.touches[0].clientY - 800
