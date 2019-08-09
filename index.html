@@ -89,6 +89,12 @@
             display: none;
             width: 133px;
         }
+
+        #menuBtn {
+            z-index: 10;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
         #menuBtn:focus {
             outline: none;
         }
@@ -171,6 +177,18 @@
   width: 0%;
   left: 50%;
 }
+.logocontainer {
+    pointer-events: none;
+    position: fixed;
+    width: 100%;
+    margin: auto;
+}
+.logo {
+    background: white;
+    width: 100px;
+    height: 35px;
+    margin: auto;
+}
     </style>
 </head>
 
@@ -187,9 +205,9 @@
         <div style="position: fixed; width: 100%; margin-top: -1px; margin-left: -1px; z-index: 10;">
             <div class="card-header  header-background" style="border: 0px dotted;">
                 <ul class="nav nav-pills card-header-pills">
+                    
                     <li class="nav-item">
                         <button id="menuBtn" class="nav-link bg-dark text-light" style="margin-top: -15px; height: 51px; background: black !important; border: 5px dashed black;">
-
                               <div id="nav-icon3">
                                 <span></span>
                                 <span></span>
@@ -197,8 +215,13 @@
                                 <span></span>
                               </div>
  
-                        </button>
+                        </button>                        
                     </li>
+                        <div class="logocontainer">
+                            <div class="logo">
+
+                            </div>
+                        </div>
                 </ul>
             </div>
         </div>
@@ -243,7 +266,7 @@
 
         var sidenavactive = false;
 
-        $('#nav-icon3').on('click', function() {
+        $('#menuBtn').on('click', function() {
             if(!sidenavactive) {
                 $('#gamelist').attr('style', 'margin-left: 0px; margin-top: 60px; overflow: hidden;');   
                 $('#gamelist').animate({marginLeft:'100px'}, 250);
