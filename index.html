@@ -16,9 +16,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Sleysin</title>
 
+    <!-- font-family: 'Press Start 2P', cursive; -->
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <style type="text/css">
         html, body {
             overflow-x: hidden;
+        }
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
         }
         .game {
             width: 300px;
@@ -81,6 +87,7 @@
         #sidenav {
             margin-top: -15px;
             display: none;
+            width: 133px;
         }
         #menuBtn:focus {
             outline: none;
@@ -283,7 +290,7 @@
 
         for (var i = 0; i < gamelist.length; i++) {
 
-            var card = $('<div>').addClass('game card text-white bg-dark mb-3')
+            var card = $('<div>').addClass('game card text-white bg-dark mb-3 pixel-font')
                 .append(
                     $('<div>').addClass('card-header')
                         .append($('<a>')
