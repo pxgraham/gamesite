@@ -46,6 +46,10 @@ function getMousePos(pad, mouseEvent) {
     }  else if(mouseEvent.touches.length > 1) {
         initialX = mouseEvent.touches[1].clientX - 80;
         initialY = mouseEvent.touches[1].clientY - 800;
+        if(initialx > 350 || initialy > 350 || initialX < 0 || initialY < 0) {
+            initialX = mouseEvent.touches[0].clientX - 80;
+            initialY = mouseEvent.touches[0].clientY - 800;
+        }
     }
 
     console.log('moust event touches --- ' + mouseEvent.touches.length);
