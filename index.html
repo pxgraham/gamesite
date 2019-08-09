@@ -19,6 +19,8 @@
     <!-- font-family: 'Press Start 2P', cursive; -->
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
 
+    <!-- font-family: 'Akronim', cursive; -->
+    <link href="https://fonts.googleapis.com/css?family=Akronim|Press+Start+2P&display=swap" rel="stylesheet">
     <style type="text/css">
         html, body {
             overflow-x: hidden;
@@ -39,7 +41,7 @@
         }
 
         .background {
-            background-image: url('games/images/mainbackground.png');
+            background-image: url('games/images/background.png');
             height: 100%;
             width: 100%;
         }
@@ -184,10 +186,16 @@
     margin: auto;
 }
 .logo {
-    background: white;
+    /* background: white; */
     width: 100px;
     height: 35px;
     margin: auto;
+    font-family: 'Akronim', cursive;
+    font-size: 30px;
+    letter-spacing: 4px;
+    color: rgb(255, 0, 0);
+    transform: scale(2, 1);
+    /* text-shadow: -1px -1px 0 red, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; */
 }
     </style>
 </head>
@@ -219,7 +227,7 @@
                     </li>
                         <div class="logocontainer">
                             <div class="logo">
-
+                                Sleysin
                             </div>
                         </div>
                 </ul>
@@ -335,7 +343,7 @@
                         // )
                         .append(
                             $('<img>')
-                                .attr('src', 'games/images/background.png')
+                                .attr('src', 'games/images/mainbackground.png')
                                 .attr('style', 'width: 100%; height: 69%;')
                                 .attr('onclick', 'console.log("hi")')
                         )
