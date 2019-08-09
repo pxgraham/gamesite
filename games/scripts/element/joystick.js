@@ -51,8 +51,8 @@ function getMousePos(pad, mouseEvent) {
     } else if(mouseEvent.touches.length > 1) {
         stats.innerText = `TWO presses!!!~~~`;
         return {
-            x: mouseEvent.touches[1].clientX - 80,
-            y: mouseEvent.touches[1].clientY - 800
+            x: mouseEvent.touches[0].clientX - 80,
+            y: mouseEvent.touches[0].clientY - 800
           };
     }
 }
