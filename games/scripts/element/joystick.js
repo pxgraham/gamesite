@@ -43,13 +43,13 @@ function getMousePos(pad, mouseEvent) {
     console.log('moust event touches --- ' + mouseEvent.touches.length);
     
     if(mouseEvent.touches.length === 1) {
-        stats.innerText = `One press~~~`;
+        stats.innerText = `1 tap: First array coords: x:${Math.round(mouseEvent.touches[0].clientX)} y:${Math.round(mouseEvent.touches[0].clientY)}`;
         return {
           x: mouseEvent.touches[0].clientX - 80,
           y: mouseEvent.touches[0].clientY - 800
         };        
     } else if(mouseEvent.touches.length > 1) {
-        stats.innerText = `TWO presses!!!~~~`;
+        stats.innerText = `1 tap: First array coords: x:${Math.round(mouseEvent.touches[1].clientX)} y:${Math.round(mouseEvent.touches[1].clientY)}`;
         return {
             x: mouseEvent.touches[0].clientX - 80,
             y: mouseEvent.touches[0].clientY - 800
