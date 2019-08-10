@@ -86,16 +86,7 @@
                 font-size: 18px;
             }
         }
-        @media screen and (max-width: 450px) {
-            width: 100px;
-            height: 35px;
-            margin: auto;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 13px;
-            letter-spacing: 1px;
-            color: rgb(255, 0, 0);
-            transform: scale(2, 1);
-        }
+
         #sidenav {
             margin-top: -15px;
             display: none;
@@ -197,15 +188,51 @@
 }
 .logo {
     /* background: white; */
-    width: 150px;
-    height: 35px;
+    width: 200px;
+    height: 200px;
     margin: auto;
     font-family: 'Press Start 2P', cursive;
-    font-size: 17.5px;
+    font-size: 25px;
     letter-spacing: 1px;
     color: rgb(255, 0, 0);
     transform: scale(2, 1);
     /* text-shadow: -1px -1px 0 red, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; */
+}
+@media screen and (max-width: 500px) {
+    .logo {                
+        width: 150px;
+        height: 35px;
+        margin: auto;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 17.5px;
+        letter-spacing: 1px;
+        color: rgb(255, 0, 0);
+        transform: scale(2, 1);
+    }
+}
+@media screen and (max-width: 375px) {
+    .logo {                
+        width: 150px;
+        height: 35px;
+        margin: auto;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: rgb(255, 0, 0);
+        transform: scale(2, 1);
+    }
+}
+@media screen and (max-width: 320px) {
+    .logo {                
+        width: 150px;
+        height: 35px;
+        margin: auto;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: rgb(255, 0, 0);
+        transform: scale(2, 1);
+    }
 }
     </style>
 </head>

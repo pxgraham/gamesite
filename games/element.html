@@ -3,6 +3,7 @@
 
 <head>
         <meta name="viewport" content="initial-scale=0.4,user-scalable=no">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
         <title>Battle of the Elements</title>
         <style type="text/css">
                 body {
@@ -46,10 +47,16 @@
                         width: 150px;
                         height: 150px;       
                 }
+                .abtna, .bbtnb {
+                        margin-left: 15px;
+                        font-family: 'Press Start 2P', cursive;
+                        margin-top: 245px; 
+                        font-size: 125px;
+                }
                 .abtn {
                         position: fixed;
                         left: 600px;
-                        background: white;
+                        background: darkslategrey;;
                         top: 800px;
                         width: 150px;
                         height: 600px;       
@@ -57,10 +64,46 @@
                 .bbtn {
                         position: fixed;
                         left: 800px;
-                        background: white;
+                        background: darkslategrey;
                         top: 800px;
                         width: 150px;
                         height: 600px;       
+                }
+                #fireBtn {
+                        border-radius: 100px;
+                        position: fixed;
+                        left: 455px;
+                        background: red;
+                        top: 800px;
+                        width: 120px;
+                        height: 120px;       
+                }
+                #waterBtn {
+                        border-radius: 100px;
+                        position: fixed;
+                        left: 455px;
+                        background: blue;
+                        top: 957px;
+                        width: 120px;
+                        height: 120px;       
+                }
+                #earthBtn {
+                        border-radius: 100px;
+                        position: fixed;
+                        left: 455px;
+                        background: rgba(165, 42, 42, 0.473);
+                        top: 1117px;
+                        width: 120px;
+                        height: 120px;       
+                }
+                #airBtn {
+                        border-radius: 100px;
+                        position: fixed;
+                        left: 455px;
+                        background: white;
+                        top: 1277px;
+                        width: 120px;
+                        height: 120px;       
                 }
                 /* .btn {
                         font-size: 100px;
@@ -102,11 +145,23 @@
                 <div id="rightBtn" class="rightbtn btn">
                         r
                 </div> -->
-                <div id="aBtn" class="abtn btn">
-                        a
+                <div id="fireBtn">
+                        fire
+                </div> 
+                <div id="waterBtn">
+                        water
+                </div> 
+                <div id="earthBtn">
+                        earth
                 </div>                
-                <div id="bBtn" class="bbtn btn">
-                        b
+                <div id="airBtn">
+                        air
+                </div>
+                <div id="aBtn" class="abtn">
+                        <p class="abtna">A</p>
+                </div>                
+                <div id="bBtn" class="bbtn">
+                        <p class="bbtnb">B</p>
                 </div>
         </div>
         <script src="scripts/VirtualJoystick.js"></script>
