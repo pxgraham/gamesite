@@ -53,7 +53,8 @@ function start() {
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyLift);
 }
-
+var id = 0; //id of bullet
+var index;
 function game() {
     update();
     //LOAD ASSETS    
@@ -86,17 +87,48 @@ function game() {
         earthwall.update();
     }
 
-
+  
     //ELEMENT BALL CREATION AND PROPULSION AND DELETION
     for (var i = 0; i < fireball.length; i++) {
         fireball[i].update();
         fireball[i].x += 10;
         if (fireball[i].x + fireball[i].w >= firewall.x && firewallup == true && fireball[i].y + fireball[i].h >= firewall.y && fireball[i].y <= firewall.y + firewall.h && fireball[i].x < firewall.x + firewall.w) {
+            fireball[i].y -= 2;
             fireball[i].w = 40;
             fireball[i].h = 40;
         }
+
         if (fireball[i].x > canvas.width) {
-            fireball.shift();
+            fireball[i].id = id;
+            for (var j = fireball.length - 1; i >= 0; --i) {
+                if (fireball[i].id == id) {
+                    fireball.splice(i,1);
+                }
+            }
+        }
+        if (fireball[i].x + fireball[i].w >= ewaterwall.x && fireball[i].y + fireball[i].h >= ewaterwall.y && fireball[i].y <= ewaterwall.y + ewaterwall.h && fireball[i].x < ewaterwall.x + ewaterwall.w) {
+            fireball[i].id = id;
+            for (var j = fireball.length - 1; i >= 0; --i) {
+                if (fireball[i].id == id) {
+                    fireball.splice(i,1);
+                }
+            }
+        }
+        if (fireball[i].x + fireball[i].w >= eearthwall.x && fireball[i].y + fireball[i].h >= eearthwall.y && fireball[i].y <= eearthwall.y + eearthwall.h && fireball[i].x < eearthwall.x + eearthwall.w) {
+            fireball[i].id = id;
+            for (var j = fireball.length - 1; i >= 0; --i) {
+                if (fireball[i].id == id) {
+                    fireball.splice(i,1);
+                }
+            }
+        }
+        if (fireball[i].x + fireball[i].w >= eairwall.x && fireball[i].y + fireball[i].h >= eairwall.y && fireball[i].y <= eairwall.y + eairwall.h && fireball[i].x < eairwall.x + eairwall.w) {
+            fireball[i].id = id;
+            for (var j = fireball.length - 1; i >= 0; --i) {
+                if (fireball[i].id == id) {
+                    fireball.splice(i,1);
+                }
+            }
         }
     }
     for (var i = 0; i < earthball.length; i++) {
@@ -201,6 +233,18 @@ function Object(x, y, w, h, c) {
     }
 }
 
+function Bullet(x, y, w, h, c, id) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.id = id;
+    this.update = function () {
+        ctx.fillStyle = c;
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+}
+
 function keyPress(evt) {
     switch (evt.keyCode) {
 
@@ -274,19 +318,19 @@ function keyPress(evt) {
                 waterwall.x = -100;
             }
             break;
-
         case 70:
+            id++;
             if (fireActive == true) {
-                fireball.push(new Object(player.x, player.y, 20, 20, 'red'))
+                fireball.push(new Bullet(player.x, player.y, 20, 20, 'red', id))
             }
             if (waterActive == true) {
-                waterball.push(new Object(player.x, player.y, 20, 20, 'blue'))
+                waterball.push(new Bullet(player.x, player.y, 20, 20, 'blue', id))
             }
             if (earthActive == true) {
-                earthball.push(new Object(player.x, player.y, 20, 20, 'brown'))
+                earthball.push(new Bullet(player.x, player.y, 20, 20, 'brown', id))
             }
             if (airActive == true) {
-                airball.push(new Object(player.x, player.y, 20, 20, 'white'))
+                airball.push(new Bullet(player.x, player.y, 20, 20, 'white', id))
             }
             break;
 
@@ -349,20 +393,21 @@ airBtn.addEventListener('touchstart', function(){
 //f70, d68
 
 
-
+// var id = 0; // unique id for each bullet to get specifically deleted
 aBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
+    id++;
+    e.preventDefault();
     if (fireActive == true) {
-        fireball.push(new Object(player.x, player.y, 20, 20, 'red'))
+        fireball.push(new Bullet(player.x, player.y, 20, 20, 'red', id))
     }
     if (waterActive == true) {
-        waterball.push(new Object(player.x, player.y, 20, 20, 'blue'))
+        waterball.push(new Bullet(player.x, player.y, 20, 20, 'blue', id))
     }
     if (earthActive == true) {
-        earthball.push(new Object(player.x, player.y, 20, 20, 'brown'))
+        earthball.push(new Bullet(player.x, player.y, 20, 20, 'brown', id))
     }
     if (airActive == true) {
-        airball.push(new Object(player.x, player.y, 20, 20, 'white'))
+        airball.push(new Bullet(player.x, player.y, 20, 20, 'white', id))
     }
 
 })
