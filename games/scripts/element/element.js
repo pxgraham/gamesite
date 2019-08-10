@@ -313,13 +313,32 @@ function keyLift(evt) {
 
 
 //MOBILE MOVEMENT 
-var leftBtn = document.getElementById('leftBtn');
-var rightBtn = document.getElementById('rightBtn');
-var upBtn = document.getElementById('upBtn');
-var downBtn = document.getElementById('downBtn');
+// var leftBtn = document.getElementById('leftBtn');
+// var rightBtn = document.getElementById('rightBtn');
+// var upBtn = document.getElementById('upBtn');
+// var downBtn = document.getElementById('downBtn');
 var aBtn = document.getElementById('aBtn');
 var bBtn = document.getElementById('bBtn');
+var fireBtn = document.getElementById('fireBtn');
+var waterBtn = document.getElementById('waterBtn');
+var earthBtn = document.getElementById('earthBtn');
+var airBtn = document.getElementById('airBtn');
+
+fireBtn.addEventListener('touchstart', function(){
+    weaponType.x = 40;
+})
+waterBtn.addEventListener('touchstart', function(){
+    weaponType.x = 140;
+})
+earthBtn.addEventListener('touchstart', function(){
+    weaponType.x = 240;
+})
+airBtn.addEventListener('touchstart', function(){
+    weaponType.x = 340;
+})
 //f70, d68
+
+
 
 aBtn.addEventListener('touchstart', function (e) {
     e.preventDefault()
