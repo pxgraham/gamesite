@@ -5,9 +5,10 @@ var player = new Object(20, 480, 20, 20, 'red');
 var border = new Object(canvas.width / 2, 0, 5, 600, 'red');
 var weaponType = new Object(40, 620, 70, 70, 'yellow');
 
+
 var fire = new Object(50, 630, 50, 50, 'red');
 var water = new Object(150, 630, 50, 50, 'blue');
-var earth = new Object(250, 630, 50, 50, 'brown');
+var earth = new Object(250, 630, 50, 50, 'rgba(165, 42, 42, 0.6)');
 var air = new Object(350, 630, 50, 50, 'white');
 
 var fireball = [];
@@ -28,13 +29,18 @@ var earthwallup = false;
 var airwall = new Object(wallx + 5, wally, 20, 100, 'white');
 var airwallup = false;
 
+var efirewall = new Object(700, 50, 20, 100, 'red');
+var ewaterwall = new Object(700, 190, 20, 100, 'blue');
+var eearthwall = new Object(700, 330, 20, 100, 'brown');
+var eairwall = new Object(700, 470, 20, 100, 'white');
+
 var fireActive = true;
 var waterActive = false;
 var earthActive = false;
 var airActive = false;
 
 var playerspeed = 10;
-var bossSpeed = 1;
+// var bossSpeed = 1;
 
 
 var left = false;
@@ -51,7 +57,11 @@ function start() {
 function game() {
     update();
     //LOAD ASSETS    
-    boss.update();
+    // targets
+    efirewall.update();
+    ewaterwall.update();
+    eearthwall.update();
+    eairwall.update();
 
     ctx.fillStyle = "red";
     ctx.fillRect(0, canvas.height - 100, canvas.width, 5);
