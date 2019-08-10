@@ -407,41 +407,41 @@ bBtn.addEventListener('touchstart', function (e) {
 
 })
 
-leftBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
-    left = true;
-})
-leftBtn.addEventListener('touchend', function (e) {
-    e.preventDefault()
-    left = false;
-})
+// leftBtn.addEventListener('touchstart', function (e) {
+//     e.preventDefault()
+//     left = true;
+// })
+// leftBtn.addEventListener('touchend', function (e) {
+//     e.preventDefault()
+//     left = false;
+// })
 
-rightBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
-    right = true;
-})
-rightBtn.addEventListener('touchend', function (e) {
-    e.preventDefault()
-    right = false;
-})
+// rightBtn.addEventListener('touchstart', function (e) {
+//     e.preventDefault()
+//     right = true;
+// })
+// rightBtn.addEventListener('touchend', function (e) {
+//     e.preventDefault()
+//     right = false;
+// })
 
-downBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
-    down = true;
-})
-downBtn.addEventListener('touchend', function (e) {
-    e.preventDefault()
-    down = false;
-})
+// downBtn.addEventListener('touchstart', function (e) {
+//     e.preventDefault()
+//     down = true;
+// })
+// downBtn.addEventListener('touchend', function (e) {
+//     e.preventDefault()
+//     down = false;
+// })
 
-upBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
-    up = true;
-})
-upBtn.addEventListener('touchend', function (e) {
-    e.preventDefault()
-    up = false;
-})
+// upBtn.addEventListener('touchstart', function (e) {
+//     e.preventDefault()
+//     up = true;
+// })
+// upBtn.addEventListener('touchend', function (e) {
+//     e.preventDefault()
+//     up = false;
+// })
 
 function update() {
     ctx.fillStyle = "black";
