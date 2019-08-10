@@ -181,8 +181,9 @@ function game() {
         }
 
         if(earthball[i].meteor) {
-            ctx.fillStyle = 'magenta';
-            ctx.fillRect(earthball[i].x - 12, earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+            // ctx.fillStyle = 'magenta';
+            // ctx.fillRect(earthball[i].x - 12, earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+            ctx.drawImage(meteorimg, earthball[i].x - 12,  earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
         }
 
         if (earthball[i].x > canvas.width) {
