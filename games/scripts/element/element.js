@@ -5,6 +5,13 @@ var player = new Object(20, 480, 20, 20, 'red');
 var border = new Object(canvas.width / 2, 0, 5, 600, 'red');
 var weaponType = new Object(40, 620, 70, 70, 'yellow');
 
+var meteorimg = new Image();
+meteorimg.src = "images/meteor.png";
+
+var meteoractive = false;
+var lightactive = false;
+var iceactve = false;
+var plantactive = false;
 
 var fire = new Object(50, 630, 50, 50, 'red');
 var water = new Object(150, 630, 50, 50, 'blue');
@@ -22,11 +29,11 @@ var wally = player.y - 40;
 
 var firewall = new Object(-100, wally, 20, 100, 'red');
 var firewallup = false;
-var waterwall = new Object(wallx + 5, wally, 20, 100, 'blue');
+var waterwall = new Object(-100, wally, 20, 100, 'blue');
 var waterwallup = false;
-var earthwall = new Object(wallx + 5, wally, 20, 100, 'brown');
+var earthwall = new Object(-100, wally, 20, 100, 'brown');
 var earthwallup = false;
-var airwall = new Object(wallx + 5, wally, 20, 100, 'white');
+var airwall = new Object(-100, wally, 20, 100, 'white');
 var airwallup = false;
 
 var efirewall = new Object(700, 50, 20, 100, 'red');
@@ -64,15 +71,6 @@ function game() {
     eearthwall.update();
     eairwall.update();
 
-    ctx.fillStyle = "red";
-    ctx.fillRect(0, canvas.height - 100, canvas.width, 5);
-    weaponType.update();
-    border.update();
-    player.update();
-    fire.update();
-    water.update();
-    earth.update();
-    air.update();
 
     if (firewallup == true) {
         firewall.update();
@@ -87,17 +85,44 @@ function game() {
         earthwall.update();
     }
 
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 600, 1000, 100);
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, canvas.height - 100, canvas.width, 5);
+    weaponType.update();
+    border.update();
+    player.update();
+    fire.update();
+    water.update();
+    earth.update();
+    air.update();
+
+    
+
   
     //ELEMENT BALL CREATION AND PROPULSION AND DELETION
     for (var i = 0; i < fireball.length; i++) {
         fireball[i].update();
         fireball[i].x += 10;
+
         if (fireball[i].x + fireball[i].w >= firewall.x && firewallup == true && fireball[i].y + fireball[i].h >= firewall.y && fireball[i].y <= firewall.y + firewall.h && fireball[i].x < firewall.x + firewall.w) {
             fireball[i].y -= 2;
             fireball[i].w = 40;
             fireball[i].h = 40;
         }
 
+        if (fireball[i].x + fireball[i].w >= earthwall.x && fireball[i].y + fireball[i].h >= earthwall.y && fireball[i].y <= earthwall.y + earthwall.h && fireball[i].x < earthwall.x + earthwall.w) {
+            fireball[i].y -= 2;
+            fireball[i].w = 40;
+            fireball[i].h = 40;
+            fireball[i].meteor = true;
+        }
+        if(fireball[i].meteor) {
+            // ctx.fillStyle = 'magenta';
+            // ctx.fillRect(fireball[i].x - 12, fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
+            ctx.drawImage(meteorimg, fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
+        }
         
             if (fireball[i].x > canvas.width) {
                 fireball[i].id = id;
@@ -117,13 +142,25 @@ function game() {
             } else
             if (fireball[i].x + fireball[i].w >= eearthwall.x && fireball[i].y + fireball[i].h >= eearthwall.y && fireball[i].y <= eearthwall.y + eearthwall.h && fireball[i].x < eearthwall.x + eearthwall.w) {
                 fireball[i].id = id;
-                fireball[i].w /= 1.19;
-                fireball[i].h /= 1.19;
+                if(fireball[i].meteor) {
+                    //pass through
+                } else {
+                    fireball[i].w /= 1.19;
+                    fireball[i].h /= 1.19;
+                }
             } else
             if (fireball[i].x + fireball[i].w >= eairwall.x && fireball[i].y + fireball[i].h >= eairwall.y && fireball[i].y <= eairwall.y + eairwall.h && fireball[i].x < eairwall.x + eairwall.w) {
-                fireball[i].id = id;                        
-                fireball[i].w /= 1.19;
-                fireball[i].h /= 1.19;
+                fireball[i].id = id;   
+                if(fireball[i].meteor) {
+                    for (var j = fireball.length - 1; i >= 0; --i) {
+                        if (fireball[i].id == id) {
+                            fireball.splice(i,1);
+                        }
+                    } 
+                }  else {
+                    fireball[i].w /= 1.19;
+                    fireball[i].h /= 1.19;
+                }                   
             } else {
                 //do nothing
             }
@@ -136,6 +173,18 @@ function game() {
             earthball[i].w = 40;
             earthball[i].h = 40;
         }
+        if (earthball[i].x + earthball[i].w >= firewall.x && earthball[i].y + earthball[i].h >= firewall.y && earthball[i].y <= firewall.y + firewall.h && earthball[i].x < firewall.x + firewall.w) {
+            earthball[i].y -= 2;
+            earthball[i].w = 40;
+            earthball[i].h = 40;
+            earthball[i].meteor = true;
+        }
+
+        if(earthball[i].meteor) {
+            ctx.fillStyle = 'magenta';
+            ctx.fillRect(earthball[i].x - 12, earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+        }
+
         if (earthball[i].x > canvas.width) {
             earthball[i].id = id;
             for (var j = earthball.length - 1; i >= 0; --i) {                
@@ -146,8 +195,16 @@ function game() {
         } else
         if (earthball[i].x + earthball[i].w >= ewaterwall.x && earthball[i].y + earthball[i].h >= ewaterwall.y && earthball[i].y <= ewaterwall.y + ewaterwall.h && earthball[i].x < ewaterwall.x + ewaterwall.w) {
             earthball[i].id = id;
-            earthball[i].w /= 1.19;
-            earthball[i].h /= 1.19;
+            if(earthball[i].meteor) {
+                for (var j = earthball.length - 1; i >= 0; --i) {
+                    if (earthball[i].id == id) {
+                        earthball.splice(i,1);
+                    }
+                } 
+            }  else {
+                earthball[i].w /= 1.19;
+                earthball[i].h /= 1.19;
+            }
         } else
         if (earthball[i].x + earthball[i].w >= eearthwall.x && earthball[i].y + earthball[i].h >= eearthwall.y && earthball[i].y <= eearthwall.y + eearthwall.h && earthball[i].x < eearthwall.x + eearthwall.w) {
             earthball[i].id = id;
@@ -161,9 +218,13 @@ function game() {
             }
         } else
         if (earthball[i].x + earthball[i].w >= efirewall.x && earthball[i].y + earthball[i].h >= efirewall.y && earthball[i].y <= efirewall.y + efirewall.h && earthball[i].x < efirewall.x + efirewall.w) {
-            earthball[i].id = id;                        
-            earthball[i].w /= 1.19;
-            earthball[i].h /= 1.19;
+            earthball[i].id = id;   
+            if(earthball[i].meteor) {
+                //passthru
+            } else {
+                earthball[i].w /= 1.19;
+                earthball[i].h /= 1.19;
+            }        
         }
     }
     for (var i = 0; i < airball.length; i++) {
@@ -242,7 +303,6 @@ function game() {
             }
         }
     }
-
 
 
     //weapon type
