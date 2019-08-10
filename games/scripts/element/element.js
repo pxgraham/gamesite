@@ -98,38 +98,39 @@ function game() {
             fireball[i].h = 40;
         }
 
-        if (fireball[i].x > canvas.width) {
-            fireball[i].id = id;
-            for (var j = fireball.length - 1; i >= 0; --i) {
-                if (fireball[i].id == id) {
-                    fireball.splice(i,1);
+        
+            if (fireball[i].x > canvas.width) {
+                fireball[i].id = id;
+                for (var j = fireball.length - 1; i >= 0; --i) {                
+                    if (fireball[i].id == id) {
+                        fireball.splice(i,1);
+                    }
+                }
+            } else
+            if (fireball[i].x + fireball[i].w >= ewaterwall.x && fireball[i].y + fireball[i].h >= ewaterwall.y && fireball[i].y <= ewaterwall.y + ewaterwall.h && fireball[i].x < ewaterwall.x + ewaterwall.w) {
+                fireball[i].id = id;
+                for (var j = fireball.length - 1; i >= 0; --i) {
+                    if (fireball[i].id == id) {
+                        fireball.splice(i,1);
+                    }
+                }
+            } else
+            if (fireball[i].x + fireball[i].w >= eearthwall.x && fireball[i].y + fireball[i].h >= eearthwall.y && fireball[i].y <= eearthwall.y + eearthwall.h && fireball[i].x < eearthwall.x + eearthwall.w) {
+                fireball[i].id = id;
+                for (var j = fireball.length - 1; i >= 0; --i) {
+                    if (fireball[i].id == id) {
+                        fireball.splice(i,1);
+                    }
+                }
+            } else
+            if (fireball[i].x + fireball[i].w >= eairwall.x && fireball[i].y + fireball[i].h >= eairwall.y && fireball[i].y <= eairwall.y + eairwall.h && fireball[i].x < eairwall.x + eairwall.w) {
+                fireball[i].id = id;                        
+                for (var j = fireball.length - 1; i >= 0; --i) {
+                    if (fireball[i].id == id) {
+                        fireball.splice(i,1);                
+                    }
                 }
             }
-        }
-        if (fireball[i].x + fireball[i].w >= ewaterwall.x && fireball[i].y + fireball[i].h >= ewaterwall.y && fireball[i].y <= ewaterwall.y + ewaterwall.h && fireball[i].x < ewaterwall.x + ewaterwall.w) {
-            fireball[i].id = id;
-            for (var j = fireball.length - 1; i >= 0; --i) {
-                if (fireball[i].id == id) {
-                    fireball.splice(i,1);
-                }
-            }
-        }
-        if (fireball[i].x + fireball[i].w >= eearthwall.x && fireball[i].y + fireball[i].h >= eearthwall.y && fireball[i].y <= eearthwall.y + eearthwall.h && fireball[i].x < eearthwall.x + eearthwall.w) {
-            fireball[i].id = id;
-            for (var j = fireball.length - 1; i >= 0; --i) {
-                if (fireball[i].id == id) {
-                    fireball.splice(i,1);
-                }
-            }
-        }
-        if (fireball[i].x + fireball[i].w >= eairwall.x && fireball[i].y + fireball[i].h >= eairwall.y && fireball[i].y <= eairwall.y + eairwall.h && fireball[i].x < eairwall.x + eairwall.w) {
-            fireball[i].id = id;
-            for (var j = fireball.length - 1; i >= 0; --i) {
-                if (fireball[i].id == id) {
-                    fireball.splice(i,1);
-                }
-            }
-        }
     }
     for (var i = 0; i < earthball.length; i++) {
         earthball[i].update();
