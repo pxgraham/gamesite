@@ -29,7 +29,7 @@ playerInfo.on("value", function(snapshot) {
 
 })
 
-$('#connectBtn').on('click', function() {
+$('#connectBtn').bind('touchstart mousedown', function() {
 
     if(player1active) {
         alert('players already here')
@@ -41,12 +41,12 @@ $('#connectBtn').on('click', function() {
 
 })
 
-$('#disconnectBtn').on('click', function() {
+$('#disconnectBtn').bind('touchstart mousedown', function() {
     playerInfo.child('player1').child('active').set(false);
     alert('you lost control')
 })
 
-$('#updateBtn').on('click', function() {
+$('#updateBtn').bind('touchstart mousedown', function() {
 
     if(playerid === 'first') {
         playerInfo.child('player1').child('position').set({
