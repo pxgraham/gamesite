@@ -31,11 +31,12 @@ var initialY;
 
 
 function getMousePos(pad, mouseEvent) {
+    // playerInfo.child('player1').child('position').set({
+    //     x: player.x,
+    //     y: player.y
+    // })
+    // console.log(playerInfo);
     var rect = pad.getBoundingClientRect();
-
-
-    var x = [1234, 1234, 11, 1];
-    x[0] === 1234
 
     initialX = mouseEvent.touches[0].clientX - 80;
     initialY = mouseEvent.touches[0].clientY - 800;

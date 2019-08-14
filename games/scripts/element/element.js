@@ -84,7 +84,7 @@ function start() {
 }
 var id = 0; //id of bullet
 var index;
-
+console.log(player1active);
 function game() {
     player.update();
     update();   //framerate
@@ -192,6 +192,14 @@ function game() {
     if (up == true && player.y != 0) {
         player.y -= playerspeed;
     }
+
+    //database upload
+    // if(player1active) {
+    //     playerInfo.child('player1').child('position').set({
+    //         x: player.x,
+    //         y: player.y
+    //     })
+    // }
 }
 
 

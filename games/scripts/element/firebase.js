@@ -50,15 +50,20 @@ $('#disconnectBtn').bind('touchstart mousedown', function() {
 $('#updateBtn').bind('touchstart mousedown', function() {
     $('#test').text('updated');
     if(playerid === 'first') {
-        playerInfo.child('player1').child('position').set({
-            x: player.x,
-            y: player.y
-        })
+        setInterval(updateGame, 85)
     } else {
         alert('your not in control');
     }    
 
 })
+
+
+function updateGame() {
+    playerInfo.child('player1').child('position').set({
+        x: player.x,
+        y: player.y
+    })
+}
 
 function getInGame() {
     // Checks for current players, if theres a player one connected, then the user becomes player 2.
