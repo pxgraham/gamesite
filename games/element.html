@@ -4,6 +4,11 @@
 <head>
         <meta name="viewport" content="initial-scale=0.4,user-scalable=no">
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+        <!-- firebase -->
+        <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script>
+
         <title>Battle of the Elements</title>
         <style type="text/css">
                 body {
@@ -129,7 +134,8 @@
 
         <div align="center">
                 <canvas id="canvas" width="1000px" height="700px"></canvas>
-                <p id="stats" style="color: cyan; font-size: 30px;">hi</p>
+                <!-- <p id="stats" style="color: cyan; font-size: 30px;">hi</p> -->
+                <button id="testBtn" style="color: cyan; font-size: 30px;">hi</button>
                 <div class="joystickContainer">
                         <canvas id="joystick"></canvas>
                 </div>
@@ -152,6 +158,10 @@
                         <p class="bbtnb">B</p>
                 </div>
         </div>
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="scripts/element/firebase.js"></script>
         <script src="scripts/element/objects.js"></script>
         <script src="scripts/element/element.js"></script>
         <script src="scripts/element/joystick.js"></script>
