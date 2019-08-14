@@ -30,7 +30,7 @@ playerInfo.on("value", function(snapshot) {
 })
 
 $('#connectBtn').bind('touchstart mousedown', function() {
-
+    $('#test').text('connecte');
     if(player1active) {
         alert('players already here')
     } else {
@@ -42,12 +42,13 @@ $('#connectBtn').bind('touchstart mousedown', function() {
 })
 
 $('#disconnectBtn').bind('touchstart mousedown', function() {
+    $('#test').text('disconnected');
     playerInfo.child('player1').child('active').set(false);
     alert('you lost control')
 })
 
 $('#updateBtn').bind('touchstart mousedown', function() {
-
+    $('#test').text('updated');
     if(playerid === 'first') {
         playerInfo.child('player1').child('position').set({
             x: player.x,
