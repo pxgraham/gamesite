@@ -14,32 +14,29 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var playerInfo = database.ref("/playerInfo")
 
-// database.ref("playerInfo")
-
-var firstJoin = 0;
 
 playerInfo.on("value", function(snapshot) {
-    if(firstJoin > 0) {
-        var d_playerx = snapshot.child('position').child('x').val();
-        var d_playery = snapshot.child('position').child('y').val();
-    } else {
-        var d_playerx = player.x
-        var d_playery = player.y
-    }
 
     playerInfo.child('position').child('x').set(player.x);
     playerInfo.child('position').child('y').set(player.y);
-    
-    console.log(d_playerx, d_playery);
 
-    player.x = d_playerx;
-    player.y = d_playery;
+    updateGameWithDbInfo(snapshot);
+
 })
 
 $('#testBtn').on('click', function() {
-    firstJoin++;
+    updateDb();
+    // updateGameWithDbInfo();
+})
+
+function updateDb() {
     playerInfo.child('position').set({
         x: player.x,
         y: player.y
     })
-})
+}
+
+function updateGameWithDbInfo(snapshot) {
+        player.x = snapshot.child('position').child('x').val();
+        player.y = snapshot.child('position').child('y').val();
+}
