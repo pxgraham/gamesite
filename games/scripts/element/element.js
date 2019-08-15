@@ -19,9 +19,18 @@ var water = new Object(150, 630, 50, 50, 'blue');
 var earth = new Object(250, 630, 50, 50, 'rgba(165, 42, 42, 0.6)');
 var air = new Object(350, 630, 50, 50, 'white');
 
-//meteor img to get placed over meteor block
+//secondary elements
 var meteorimg = new Image();
 meteorimg.src = "images/meteor.png";
+
+var lightimg = new Image();
+lightimg.src = "images/light.png";
+
+var plantimg = new Image();
+plantimg.src = "images/plant.png";
+
+var iceimg = new Image();
+iceimg.src = "images/ice.png";
 
 var meteoractive = false;
 var lightactive = false;

@@ -39,7 +39,7 @@ const conjure = {
                 //prints picture of light over fireball
                 ctx.clearRect(fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
                 // rerenderover(fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
-                ctx.drawImage(fireplayer, fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
+                ctx.drawImage(lightimg, fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
             }
             
             //if fireball goes offscreen
@@ -118,6 +118,8 @@ const conjure = {
                 earthball[i].w = 40;
                 earthball[i].h = 40;
             }
+
+            //if earthball hits firewall it turns to meteor
             if (earthball[i].x + earthball[i].w >= firewall.x && earthball[i].y + earthball[i].h >= firewall.y && earthball[i].y <= firewall.y + firewall.h && earthball[i].x < firewall.x + firewall.w) {
                 earthball[i].y -= 2;
                 earthball[i].w = 40;
@@ -129,6 +131,21 @@ const conjure = {
                 // ctx.fillStyle = 'magenta';
                 // ctx.fillRect(earthball[i].x - 12, earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
                 ctx.drawImage(meteorimg, earthball[i].x - 12,  earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+            }
+
+            //if earthball hits waterwall
+            if (earthball[i].x + earthball[i].w >= waterwall.x &&  earthball[i].y + earthball[i].h >= waterwall.y && earthball[i].y <= waterwall.y + waterwall.h && earthball[i].x < waterwall.x + waterwall.w) {
+                earthball[i].y -= 2;
+                earthball[i].w = 40;
+                earthball[i].h = 40;
+                earthball[i].plant = true;  //and turns into a plant strike
+            }
+
+            //if earthball turns into a plant strike
+            if(earthball[i].plant) {
+                //prints picture of plant over earthball
+                ctx.clearRect(earthball[i].x - 12,  earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+                ctx.drawImage(plantimg, earthball[i].x - 12,  earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
             }
     
             if (earthball[i].x > canvas.width) {
@@ -177,6 +194,7 @@ const conjure = {
 
     water: function() {
         for (var i = 0; i < waterball.length; i++) {
+
             waterball[i].update();
             waterball[i].x += 10;
             if (waterball[i].x + waterball[i].w >= waterwall.x && waterwallup == true && waterball[i].y + waterball[i].h >= waterwall.y && waterball[i].y <= waterwall.y + waterwall.h && waterball[i].x < waterwall.x + waterwall.w) {
@@ -184,6 +202,37 @@ const conjure = {
                 waterball[i].w = 40;
                 waterball[i].h = 40;
             }
+
+            //if waterball hits earthwall
+            if (waterball[i].x + waterball[i].w >= earthwall.x &&  waterball[i].y + waterball[i].h >= earthwall.y && waterball[i].y <= earthwall.y + earthwall.h && waterball[i].x < earthwall.x + earthwall.w) {
+                waterball[i].y -= 2;
+                waterball[i].w = 40;
+                waterball[i].h = 40;
+                waterball[i].plant = true;  //and turns into a plant strike
+            }
+
+            //if waterball turns into a plant strike
+            if(waterball[i].plant) {
+                //prints picture of plant over waterball
+                ctx.clearRect(waterball[i].x - 12,  waterball[i].y - 1, waterball[i].w + 1, waterball[i].h + 1);
+                ctx.drawImage(plantimg, waterball[i].x - 12,  waterball[i].y - 1, waterball[i].w + 1, waterball[i].h + 1);
+            }
+            
+            //if waterball hits airwall
+            if (waterball[i].x + waterball[i].w >= airwall.x &&  waterball[i].y + waterball[i].h >= airwall.y && waterball[i].y <= airwall.y + airwall.h && waterball[i].x < airwall.x + airwall.w) {
+                waterball[i].y -= 2;
+                waterball[i].w = 40;
+                waterball[i].h = 40;
+                waterball[i].ice = true;  //and turns into a ice strike
+            }
+
+            //if waterball turns into a ice strike
+            if(waterball[i].ice) {
+                //prints picture of ice over waterball
+                ctx.clearRect(waterball[i].x - 12,  waterball[i].y - 1, waterball[i].w + 1, waterball[i].h + 1);
+                ctx.drawImage(iceimg, waterball[i].x - 12,  waterball[i].y - 1, waterball[i].w + 1, waterball[i].h + 1);
+            }
+
             if (waterball[i].x > canvas.width) {
                 waterball[i].id = id;
                 for (var j = waterball.length - 1; i >= 0; --i) {                
@@ -220,11 +269,45 @@ const conjure = {
         for (var i = 0; i < airball.length; i++) {
             airball[i].update();
             airball[i].x += 10;
+
+            //if airball hits your airwall
             if (airball[i].x + airball[i].w >= airwall.x && airwallup == true && airball[i].y + airball[i].h >= airwall.y && airball[i].y <= airwall.y + airwall.h && airball[i].x < airwall.x + airwall.w) {
                 airball[i].y -= 2;
                 airball[i].w = 40;
                 airball[i].h = 40;
             }
+
+            //if airball hits your firewall
+            if (airball[i].x + airball[i].w >= firewall.x &&  airball[i].y + airball[i].h >= firewall.y && airball[i].y <= firewall.y + firewall.h && airball[i].x < firewall.x + firewall.w) {
+                airball[i].y -= 2;
+                airball[i].w = 40;
+                airball[i].h = 40;
+                airball[i].light = true;  //and turns into a light strike
+            }
+
+            //if airball turns into a light strike
+            if(airball[i].light) {
+                //prints picture of light over airball
+                ctx.clearRect(airball[i].x - 12,  airball[i].y - 1, airball[i].w + 1, airball[i].h + 1);
+                ctx.drawImage(lightimg, airball[i].x - 12,  airball[i].y - 1, airball[i].w + 1, airball[i].h + 1);
+            }
+
+            //if airball hits your waterwall
+            if (airball[i].x + airball[i].w >= waterwall.x &&  airball[i].y + airball[i].h >= waterwall.y && airball[i].y <= waterwall.y + waterwall.h && airball[i].x < waterwall.x + waterwall.w) {
+                airball[i].y -= 2;
+                airball[i].w = 40;
+                airball[i].h = 40;
+                airball[i].ice = true;  //and turns into a light strike
+            }
+
+            //if airball turns into a ice strike
+            if(airball[i].ice) {
+                //prints picture of ice over airball
+                ctx.clearRect(airball[i].x - 12,  airball[i].y - 1, airball[i].w + 1, airball[i].h + 1);
+                ctx.drawImage(iceimg, airball[i].x - 12,  airball[i].y - 1, airball[i].w + 1, airball[i].h + 1);
+            }
+            
+            //if airball goes offscreen
             if (airball[i].x > canvas.width) {
                 airball[i].id = id;
                 for (var j = airball.length - 1; i >= 0; --i) {                
@@ -233,6 +316,8 @@ const conjure = {
                     }
                 }
             } else
+
+            //if airball hits enemy waterwall
             if (airball[i].x + airball[i].w >= ewaterwall.x && airball[i].y + airball[i].h >= ewaterwall.y && airball[i].y <= ewaterwall.y + ewaterwall.h && airball[i].x < ewaterwall.x + ewaterwall.w) {
                 airball[i].id = id;
                 airball[i].w /= 1.19;
