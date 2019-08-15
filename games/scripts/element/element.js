@@ -19,7 +19,20 @@ var water = new Object(150, 630, 50, 50, 'blue');
 var earth = new Object(250, 630, 50, 50, 'rgba(165, 42, 42, 0.6)');
 var air = new Object(350, 630, 50, 50, 'white');
 
-//secondary elements
+//primary elements images
+var airimg = new Image();
+airimg.src = "images/airimg.png";
+
+var waterimg = new Image();
+waterimg.src = "images/waterimg.png";
+
+var earthimg = new Image();
+earthimg.src = "images/earthimg.png";
+
+var fireimg = new Image();
+fireimg.src = "images/fireimg.png";
+
+//secondary elements images
 var meteorimg = new Image();
 meteorimg.src = "images/meteor.png";
 

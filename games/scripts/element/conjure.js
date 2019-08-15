@@ -4,19 +4,21 @@ const conjure = {
         for (var i = 0; i < fireball.length; i++) {
             fireball[i].update();   //prints bullet
             fireball[i].x += 10;    //bullet x velocity
+
+            ctx.drawImage(fireimg, fireball[i].x - 12,  fireball[i].y - 1, fireball[i].w + 1, fireball[i].h + 1);
     
             //if your fireball hits your firewall
             if (fireball[i].x + fireball[i].w >= firewall.x && firewallup == true && fireball[i].y + fireball[i].h >= firewall.y && fireball[i].y <= firewall.y + firewall.h && fireball[i].x < firewall.x + firewall.w) {
                 fireball[i].y -= 2;     //it centers
-                fireball[i].w = 40;     //it grows wide
-                fireball[i].h = 40;     //and taller
+                fireball[i].w += 4;     //it grows wide
+                fireball[i].h += 4;     //and taller
             }
             
             //if your fireball hits your earthwall
             if (fireball[i].x + fireball[i].w >= earthwall.x && fireball[i].y + fireball[i].h >= earthwall.y && fireball[i].y <= earthwall.y + earthwall.h && fireball[i].x < earthwall.x + earthwall.w) {
                 fireball[i].y -= 2; //it centers
-                fireball[i].w = 40; //it grows wide
-                fireball[i].h = 40; //and tall
+                fireball[i].w += 4; //it grows wide
+                fireball[i].h += 4; //and tall
                 fireball[i].meteor = true;  //and turns into a meteor
             }
     
@@ -29,8 +31,8 @@ const conjure = {
             // if fireball hits your airwall
             if (fireball[i].x + fireball[i].w >= airwall.x && fireball[i].y + fireball[i].h >= airwall.y && fireball[i].y <= airwall.y + airwall.h && fireball[i].x < airwall.x + airwall.w) {
                 fireball[i].y -= 2; //it centers
-                fireball[i].w = 40; //it grows wide
-                fireball[i].h = 40; //and tall
+                fireball[i].w += 4; //it grows wide
+                fireball[i].h += 4; //and tall
                 fireball[i].light = true;  //and turns into a light strike
             }
     
@@ -113,17 +115,19 @@ const conjure = {
         for (var i = 0; i < earthball.length; i++) {
             earthball[i].update();
             earthball[i].x += 10;
+            ctx.drawImage(earthimg, earthball[i].x - 12,  earthball[i].y - 1, earthball[i].w + 1, earthball[i].h + 1);
+
             if (earthball[i].x + earthball[i].w >= earthwall.x && earthwallup == true && earthball[i].y + earthball[i].h >= earthwall.y && earthball[i].y <= earthwall.y + earthwall.h && earthball[i].x < earthwall.x + earthwall.w) {
                 earthball[i].y -= 2;
-                earthball[i].w = 40;
-                earthball[i].h = 40;
+                earthball[i].w  += 4;
+                earthball[i].h  += 4;
             }
 
             //if earthball hits firewall it turns to meteor
             if (earthball[i].x + earthball[i].w >= firewall.x && earthball[i].y + earthball[i].h >= firewall.y && earthball[i].y <= firewall.y + firewall.h && earthball[i].x < firewall.x + firewall.w) {
                 earthball[i].y -= 2;
-                earthball[i].w = 40;
-                earthball[i].h = 40;
+                earthball[i].w  += 4;
+                earthball[i].h  += 4;
                 earthball[i].meteor = true;
             }
     
@@ -136,8 +140,8 @@ const conjure = {
             //if earthball hits waterwall
             if (earthball[i].x + earthball[i].w >= waterwall.x &&  earthball[i].y + earthball[i].h >= waterwall.y && earthball[i].y <= waterwall.y + waterwall.h && earthball[i].x < waterwall.x + waterwall.w) {
                 earthball[i].y -= 2;
-                earthball[i].w = 40;
-                earthball[i].h = 40;
+                earthball[i].w  += 4;
+                earthball[i].h  += 4;
                 earthball[i].plant = true;  //and turns into a plant strike
             }
 
@@ -197,17 +201,19 @@ const conjure = {
 
             waterball[i].update();
             waterball[i].x += 10;
+            ctx.drawImage(waterimg, waterball[i].x - 12,  waterball[i].y - 1, waterball[i].w + 1, waterball[i].h + 1);
+
             if (waterball[i].x + waterball[i].w >= waterwall.x && waterwallup == true && waterball[i].y + waterball[i].h >= waterwall.y && waterball[i].y <= waterwall.y + waterwall.h && waterball[i].x < waterwall.x + waterwall.w) {
                 waterball[i].y -= 2;
-                waterball[i].w = 40;
-                waterball[i].h = 40;
+                waterball[i].w  += 4;
+                waterball[i].h  += 4;
             }
 
             //if waterball hits earthwall
             if (waterball[i].x + waterball[i].w >= earthwall.x &&  waterball[i].y + waterball[i].h >= earthwall.y && waterball[i].y <= earthwall.y + earthwall.h && waterball[i].x < earthwall.x + earthwall.w) {
                 waterball[i].y -= 2;
-                waterball[i].w = 40;
-                waterball[i].h = 40;
+                waterball[i].w  += 4;
+                waterball[i].h  += 4;
                 waterball[i].plant = true;  //and turns into a plant strike
             }
 
@@ -221,8 +227,8 @@ const conjure = {
             //if waterball hits airwall
             if (waterball[i].x + waterball[i].w >= airwall.x &&  waterball[i].y + waterball[i].h >= airwall.y && waterball[i].y <= airwall.y + airwall.h && waterball[i].x < airwall.x + airwall.w) {
                 waterball[i].y -= 2;
-                waterball[i].w = 40;
-                waterball[i].h = 40;
+                waterball[i].w  += 4;
+                waterball[i].h  += 4;
                 waterball[i].ice = true;  //and turns into a ice strike
             }
 
@@ -269,19 +275,20 @@ const conjure = {
         for (var i = 0; i < airball.length; i++) {
             airball[i].update();
             airball[i].x += 10;
+            ctx.drawImage(airimg, airball[i].x - 12,  airball[i].y - 1, airball[i].w + 1, airball[i].h + 1);
 
             //if airball hits your airwall
             if (airball[i].x + airball[i].w >= airwall.x && airwallup == true && airball[i].y + airball[i].h >= airwall.y && airball[i].y <= airwall.y + airwall.h && airball[i].x < airwall.x + airwall.w) {
                 airball[i].y -= 2;
-                airball[i].w = 40;
-                airball[i].h = 40;
+                airball[i].w  += 4;
+                airball[i].h  += 4;
             }
 
             //if airball hits your firewall
             if (airball[i].x + airball[i].w >= firewall.x &&  airball[i].y + airball[i].h >= firewall.y && airball[i].y <= firewall.y + firewall.h && airball[i].x < firewall.x + firewall.w) {
                 airball[i].y -= 2;
-                airball[i].w = 40;
-                airball[i].h = 40;
+                airball[i].w  += 4;
+                airball[i].h  += 4;
                 airball[i].light = true;  //and turns into a light strike
             }
 
@@ -295,8 +302,8 @@ const conjure = {
             //if airball hits your waterwall
             if (airball[i].x + airball[i].w >= waterwall.x &&  airball[i].y + airball[i].h >= waterwall.y && airball[i].y <= waterwall.y + waterwall.h && airball[i].x < waterwall.x + waterwall.w) {
                 airball[i].y -= 2;
-                airball[i].w = 40;
-                airball[i].h = 40;
+                airball[i].w  += 4;
+                airball[i].h  += 4;
                 airball[i].ice = true;  //and turns into a light strike
             }
 
