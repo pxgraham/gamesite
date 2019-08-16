@@ -16,7 +16,7 @@ function Bullet(x, y, w, h, c, id) {
     this.h = h;
     this.id = id;
     this.update = function () {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.fillStyle = "rgba(255, 2f55, 255, 0.5)";
         ctx.fillRect(this.x, this.y, this.w, this.h);
     }
 }

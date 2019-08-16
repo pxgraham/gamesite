@@ -146,17 +146,17 @@ airBtn.addEventListener('touchstart', function(){
 aBtn.addEventListener('touchstart', function (e) {
     id++;
     e.preventDefault();
-    if (fireActive == true) {                          //previous values were 20
-        fireball.push(new Bullet(player.x, player.y, 100, 100, 'red', id))
+    if (fireActive == true) {
+        fireball.push(new Bullet(player.x, player.y, 50, 50, 'red', id))
     }
     if (waterActive == true) {
-        waterball.push(new Bullet(player.x, player.y, 100, 100, 'blue', id))
+        waterball.push(new Bullet(player.x, player.y, 50, 50, 'blue', id))
     }
     if (earthActive == true) {
-        earthball.push(new Bullet(player.x, player.y, 100, 100, 'brown', id))
+        earthball.push(new Bullet(player.x, player.y, 50, 50, 'brown', id))
     }
     if (airActive == true) {
-        airball.push(new Bullet(player.x, player.y, 20, 20, 'white', id))
+        airball.push(new Bullet(player.x, player.y, 50, 50, 'white', id))
     }
 
 })
