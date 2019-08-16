@@ -120,15 +120,19 @@ function game() {
     //when *b* is pressed, a firewall turns on and gets placed, and stays placed.
     if (firewallup) {
         firewall.update();
+        ctx.drawImage(fireimg, firewall.x, firewall.y, firewall.w, firewall.h);
     }
     if (waterwallup == true) {
         waterwall.update();
+        ctx.drawImage(waterimg, waterwall.x, waterwall.y, waterwall.w, waterwall.h);
     }
     if (airwallup == true) {
         airwall.update();
+        ctx.drawImage(airimg, airwall.x, airwall.y, airwall.w, airwall.h);
     }
     if (earthwallup == true) {
         earthwall.update();
+        ctx.drawImage(earthimg, earthwall.x, earthwall.y, earthwall.w, earthwall.h);
     }
 
     //renders black box after element wall over the bottom bar so it doesnt overlap when placed
@@ -147,7 +151,7 @@ function game() {
 
     //you
     // player.update();
-    ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, player.w + 50, player.h + 50);
+    ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, 150, 125);
 
     //blocks showing what element your on
     fire.update();

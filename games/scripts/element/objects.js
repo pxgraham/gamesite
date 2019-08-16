@@ -1,10 +1,15 @@
-function Object(x, y, w, h, c) {
+function Object(x, y, w, h, c, type) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.update = function () {
-        ctx.fillStyle = c;
+        if(this.type === 'wall') {
+            ctx.fillStyle = "rgba(255, 2f55, 255, 0.5)";
+        } else {
+            // console.log()
+            ctx.fillStyle = c;
+        }
         ctx.fillRect(this.x, this.y, this.w, this.h);
     }
 }
