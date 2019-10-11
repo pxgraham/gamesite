@@ -25,12 +25,12 @@ module.exports = function(app) {
 
   // If no matching route is found default to home
   app.get("/games/element.html", function(req, res) {
-    res.sendFile(path.join(__dirname, "../games/element.html"));
+    res.sendFile(path.join(__dirname, "../public/element.html"));
   });
   app.get("/games/element2.html", function(req, res) {
-    res.sendFile(path.join(__dirname, "../games/element2.html"));
+    res.sendFile(path.join(__dirname, "../public/element2.html"));
   });
   app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "../index.html"));
+    res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 };

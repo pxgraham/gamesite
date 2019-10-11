@@ -35,13 +35,13 @@
         }
 
         .header-background {
-            background-image: url('games/images/background.png');
+            background-image: url('/public/images/background.png');
             height: 100%;
             width: 100%;
         }
 
         .background {
-            background-image: url('games/images/background.png');
+            background-image: url('/public/images/background.png');
             height: 100%;
             width: 100%;
         }
@@ -237,7 +237,7 @@
     </style>
 </head>
 
-<body style="font-family: verdana; background: url(games/images/background.png);">
+<body style="font-family: verdana; background: url(/public/images/background.png);">
     <div id="sidenav" class="sidenav">
         <a href="#about">About</a>
         <a href="#services">Services</a>
@@ -300,13 +300,15 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
         crossorigin="anonymous"></script>
     <script type="text/javascript">
+
+
 	$('#nav-icon3').click(function(){
 		$(this).toggleClass('open');
 	});
         // var sidenav = $('#sidenav');
         // var menuBtn = $('#menuBtn');
         // var gamelist = $('#gamelist');
-        console.log(test);
+        // console.log(test);
         
         $('#gamelist').attr('style', 'margin-left: 0px; margin-top: 60px; overflow: hidden;');
 
@@ -381,9 +383,9 @@
                         // )
                         .append(
                             $('<img>')
-                                .attr('src', 'games/images/mainbackground.png')
+                                .attr('src', '/public/images/mainbackground.png')
                                 .attr('style', 'width: 100%; height: 69%;')
-                                .attr('onclick', 'console.log("hi")')
+                                // .attr('onclick', 'console.log("hi")')
                         )
 
                 )

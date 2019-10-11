@@ -1,5 +1,5 @@
 var starBkgnd = new Image();
-starBkgnd.src = 'images/background.png';
+starBkgnd.src = '/public/images/background.png';
 
 var canvas = document.getElementById('canvas');                 //main canvas
 var ctx = canvas.getContext('2d');                              //context of main canvas
@@ -8,7 +8,7 @@ var ctx = canvas.getContext('2d');                              //context of mai
 var boss = new Object(900, 250, 100, 100, 'magenta');                
 var player = new Object(20, 480, 20, 20, 'red');
 var fireplayer = new Image();
-fireplayer.src = "images/fireplayer.png"
+fireplayer.src = "/public/images/fireplayer.png"
 
 
 //used for drawing weapon type blocks
@@ -21,29 +21,29 @@ var air = new Object(350, 630, 50, 50, 'white');
 
 //primary elements images
 var airimg = new Image();
-airimg.src = "images/airimg.png";
+airimg.src = "/public/images/airimg.png";
 
 var waterimg = new Image();
-waterimg.src = "images/waterimg.png";
+waterimg.src = "/public/images/waterimg.png";
 
 var earthimg = new Image();
-earthimg.src = "images/earthimg.png";
+earthimg.src = "/public/images/earthimg.png";
 
 var fireimg = new Image();
-fireimg.src = "images/fireimg.png";
+fireimg.src = "/public/images/fireimg.png";
 
 //secondary elements images
 var meteorimg = new Image();
-meteorimg.src = "images/meteor.png";
+meteorimg.src = "/public/images/meteor.png";
 
 var lightimg = new Image();
-lightimg.src = "images/light.png";
+lightimg.src = "/public/images/light.png";
 
 var plantimg = new Image();
-plantimg.src = "images/plant.png";
+plantimg.src = "/public/images/plant.png";
 
 var iceimg = new Image();
-iceimg.src = "images/ice.png";
+iceimg.src = "/public/images/ice.png";
 
 var meteoractive = false;
 var lightactive = false;
