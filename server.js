@@ -5,6 +5,7 @@
 
 var express = require("express");
 
+
 // ==============================================================================
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
@@ -14,6 +15,7 @@ var express = require("express");
 var app = express();
 
 // Sets an initial port. We"ll use this later in our listener
+
 var PORT = process.env.PORT || 8080;
 
 // Sets up the Express app to handle data parsing
@@ -34,6 +36,23 @@ require("./routes/htmlRoutes")(app);
 // The below code effectively "starts" our server
 // =============================================================================
 
-app.listen(PORT, function() {
+var serv = require('http').createServer(app);
+var io = require('socket.io')(serv, {});
+io.sockets.on('connection', function(socket) {
+  console.log('socket connection');
+
+  socket.on('happy', function(data) {
+    console.log(`happy because ${data.reason}`);
+  })
+
+  socket.emit('message', {
+    msg: 'hello from the server',
+  })
+
+})
+
+serv.listen(PORT, function() {
   console.log("App listening on PORT: " + PORT);
 });
+
+
