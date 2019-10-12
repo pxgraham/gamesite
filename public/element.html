@@ -182,22 +182,36 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
         <!-- <script src="/public/scripts/element/firebase.js"></script> -->
-        <!-- <script src="/public/scripts/element/objects.js"></script> -->
-        <!-- <script src="/public/scripts/element/element.js"></script> -->
+        <script src="/public/scripts/element/objects.js"></script>
+        <script src="/public/scripts/element/element.js"></script>
         <!-- <script src="/public/scripts/element/joystick.js"></script> -->
-        <!-- <script src="/public/scripts/element/conjure.js"></script> -->
+        <script src="/public/scripts/element/conjure.js"></script>
         <!-- <script src="/public/scripts/element/events.js"></script> -->
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script>
+                var socket = io();
                 var starBkgnd = new Image();
 starBkgnd.src = '/public/images/background.png';
 
 var canvas = document.getElementById('canvas');                 //main canvas
 var ctx = canvas.getContext('2d');                              //context of main canvas
+var numberOfUsers;
 
-//npc/player objects
-var boss = new Object(900, 250, 100, 100, 'magenta');                
+socket.on('userCount', function(data) {
+    numberOfUsers = data.users;
+    console.log('users: ' + numberOfUsers);
+    if(numberOfUsers === 1) {
+        console.log(`your user 1`)
+    }
+    if(numberOfUsers === 2) {
+        console.log(`your user 2`)
+    }
+})
+
+
 var player = new Object(20, 480, 20, 20, 'red');
+//npc/player objects
+var boss = new Object(900, 250, 100, 100, 'magenta');               
 var fireplayer = new Image();
 fireplayer.src = "/public/images/fireplayer.png"
 
@@ -289,7 +303,7 @@ var up = false;
 var down = false;
                 var pid = Math.random();
 
-                var socket = io();
+                // var socket = io();
 
                 var devbtn1 = document.getElementById('test1');
                 var devbtn2 = document.getElementById('test2');
@@ -301,10 +315,37 @@ var down = false;
                 })
 
                 //server start
-                socket.on('newPosition', function(data) {
+                ctx.font = '50px Arial'
+                socket.on('newPosition', function(data) {                        
                         ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height);
+                        game();
                         for(var i = 0; i < data.length; i++) {
-                                ctx.drawImage(fireplayer, data[i].x, data[i].y, 150, 125);
+                                // if(data[i].userNumber === 1) {
+                                //         console.log('user 1 id passage')
+                                // } else if (data[i].userNumber === 2) {
+                                //         console.log('user 2 id passage')
+                                // }
+                                if(data[i].x < 375) {
+                                        // console.log('user 1')
+                                        ctx.fillStyle = 'white';
+                                        ctx.drawImage(fireplayer, data[i].x, data[i].y, 100, 100);
+                                        ctx.fillText('Player 1', data[i].x, data[i].y - 10)
+                                } else if(data[i].x > 450) {
+                                        userNumber = 2;
+                                        ctx.fillStyle = 'white';
+                                        ctx.fillText('Player 2', data[i].x, data[i].y - 10)
+                                        ctx.drawImage(fireplayer, data[i].x + 60, data[i].y, 100, 100);
+                                }
+                                
+                                // if(data[i].length > 1) {
+                                //         ctx.drawImage(fireplayer, data[i].x += 200, data[i].y, 150, 125);
+                                //         data[i].userNumber = 2;
+                                //         console.log(data[i].userNumber);
+                                // } else {
+                                        ctx.drawImage(fireplayer, data[i].x, data[i].y, 150, 125);
+                                //         data[i].userNumber = 1;
+                                //         // console.log(data[i].userNumber);
+                                // }
                         }
                 })
                 

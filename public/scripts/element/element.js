@@ -76,10 +76,10 @@ var airwall = new Object(-100, wally, 20, 100, 'white');
 var airwallup = false;
 
 //enemy test walls
-var efirewall = new Object(700, 50, 20, 100, 'red');
-var ewaterwall = new Object(700, 190, 20, 100, 'blue');
-var eearthwall = new Object(700, 330, 20, 100, 'brown');
-var eairwall = new Object(700, 470, 20, 100, 'white');
+// var efirewall = new Object(700, 50, 20, 100, 'red');
+// var ewaterwall = new Object(700, 190, 20, 100, 'blue');
+// var eearthwall = new Object(700, 330, 20, 100, 'brown');
+// var eairwall = new Object(700, 470, 20, 100, 'white');
 
 //element your currently on
 var fireActive = true;
@@ -100,7 +100,7 @@ var down = false;
 
 //game interval and keypresses
 function start() {
-    // setInterval(game, 20);
+    setInterval(game, 20);
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyLift);
 }
@@ -119,10 +119,10 @@ function game() {
     // update();   //framerate
 
     // targets
-    efirewall.update();
-    ewaterwall.update();
-    eearthwall.update();
-    eairwall.update();
+    // efirewall.update();
+    // ewaterwall.update();
+    // eearthwall.update();
+    // eairwall.update();
 
     //when *b* is pressed, a firewall turns on and gets placed, and stays placed.
     if (firewallup) {
@@ -199,32 +199,32 @@ function game() {
     }
 
     //BORDERS
-    if (player.y + player.h > canvas.height) {
-        player.y = canvas.height - player.h - 100;
-    }
-    if (player.x < 0) {
-        player.x = 0;
-    }
-    if (player.y < 0) {
-        player.y = 0;
-    }
-    if (player.x + player.w > canvas.width / 2) {
-        player.x = canvas.width / 2 - player.w;
-    }
+    // if (player.y + player.h > canvas.height) {
+    //     player.y = canvas.height - player.h - 100;
+    // }
+    // if (player.x < 0) {
+    //     player.x = 0;
+    // }
+    // if (player.y < 0) {
+    //     player.y = 0;
+    // }
+    // if (player.x + player.w > canvas.width / 2) {
+    //     player.x = canvas.width / 2 - player.w;
+    // }
 
-    //MOVEMENT
-    if (left == true && player.x != 0) {
-        player.x -= playerspeed;
-    }
-    if (right == true && player.x != canvas.width / 2 - player.w) {
-        player.x += playerspeed;
-    }
-    if (down == true && player.y != canvas.height - player.h - 100) {
-        player.y += playerspeed;
-    }
-    if (up == true && player.y != 0) {
-        player.y -= playerspeed;
-    }
+    // //MOVEMENT
+    // if (left == true && player.x != 0) {
+    //     player.x -= playerspeed;
+    // }
+    // if (right == true && player.x != canvas.width / 2 - player.w) {
+    //     player.x += playerspeed;
+    // }
+    // if (down == true && player.y != canvas.height - player.h - 100) {
+    //     player.y += playerspeed;
+    // }
+    // if (up == true && player.y != 0) {
+    //     player.y -= playerspeed;
+    // }
 
     //database upload
     // if(player1active) {
@@ -237,60 +237,60 @@ function game() {
 
 
 
-function update() {
-    // ctx.fillStyle = "black";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height);
-}
+// function update() {
+//     // ctx.fillStyle = "black";
+//     // ctx.fillRect(0, 0, canvas.width, canvas.height);
+//     ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height);
+// }
 
-function rerenderover(x, y, w, h) {
-    ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height); //
-    efirewall.update();
-    ewaterwall.update();
-    eearthwall.update();
-    eairwall.update();
-    if (firewallup) {
-        firewall.update();
-    }
-    if (waterwallup == true) {
-        waterwall.update();
-    }
-    if (airwallup == true) {
-        airwall.update();
-    }
-    if (earthwallup == true) {
-        earthwall.update();
-    }
-    ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, player.w + 50, player.h + 50);
-    ctx.drawImage(fireplayer, this.x,  this.y, this.w, this.h)
-    // conjure.fire();
-    // conjure.earth();
-    // conjure.water();
-    // conjure.air();
+// function rerenderover(x, y, w, h) {
+//     ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height); //
+//     efirewall.update();
+//     ewaterwall.update();
+//     eearthwall.update();
+//     eairwall.update();
+//     if (firewallup) {
+//         firewall.update();
+//     }
+//     if (waterwallup == true) {
+//         waterwall.update();
+//     }
+//     if (airwallup == true) {
+//         airwall.update();
+//     }
+//     if (earthwallup == true) {
+//         earthwall.update();
+//     }
+//     ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, player.w + 50, player.h + 50);
+//     ctx.drawImage(fireplayer, this.x,  this.y, this.w, this.h)
+//     // conjure.fire();
+//     // conjure.earth();
+//     // conjure.water();
+//     // conjure.air();
 
-    //renders black box after element wall over the bottom bar so it doesnt overlap when placed
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 600, 1000, 100);
+//     //renders black box after element wall over the bottom bar so it doesnt overlap when placed
+//     ctx.fillStyle = 'black';
+//     ctx.fillRect(0, 600, 1000, 100);
 
-    //top of bottom bar
-    ctx.fillStyle = "red";
-    ctx.fillRect(0, canvas.height - 100, canvas.width, 5);
+//     //top of bottom bar
+//     ctx.fillStyle = "red";
+//     ctx.fillRect(0, canvas.height - 100, canvas.width, 5);
 
-    //yellow border behind element type
-    weaponType.update();
+//     //yellow border behind element type
+//     weaponType.update();
 
-    //center verticle line
-    border.update();
+//     //center verticle line
+//     border.update();
 
-    //you
-    // player.update();
-    ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, player.w + 50, player.h + 50);
+//     //you
+//     // player.update();
+//     ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, player.w + 50, player.h + 50);
 
-    //blocks showing what element your on
-    fire.update();
-    water.update();
-    earth.update();
-    air.update();
+//     //blocks showing what element your on
+//     fire.update();
+//     water.update();
+//     earth.update();
+//     air.update();
 
-}
+// }
 

@@ -51,14 +51,28 @@ var PLAYER_LIST = {};
 var users = 0;
 
 var Player = function(id) {
-  var self = {
-    x: 250,
-    y: 250,
-    id: id,     
-    left: false,
-    right: false,
-    up: false,
-    down: false
+  if(users === 1) {
+    var self = {
+      x: 250,
+      y: 250,
+      id: id,     
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      userNumber: 1,
+    }
+  } else if (users === 2) {
+    var self = {
+      x: 500,
+      y: 250,
+      id: id,     
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      userNumber: 2,
+    }
   }
   self.updatePosition = function() {
     if (self.left) {
@@ -77,17 +91,26 @@ var Player = function(id) {
   return self;
 }
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function(socket) {  
   users++;
-  console.log('socket connected');
+  if(users === 1) {
+    console.log('your the first user');
+  } else if (users === 2) {
+    console.log('there was a user here before you');
+  }
+  console.log('user ' + users + ' connected');
   socket.id = Math.random();
   SOCKET_LIST[socket.id] = socket;
 
   var player = Player(socket.id);
   PLAYER_LIST[socket.id] = player;
-  
+    
   socket.x = 0;
   socket.y = 0;
+
+  socket.emit('userCount', {
+    users: users,
+  })
   //send msg
   socket.on('messagefromcli', function(data) {
     console.log(`${data.message}`);
@@ -106,11 +129,20 @@ io.sockets.on('connection', function(socket) {
   })
 
   // socket disconnection
-  socket.on('disconnect', function () {
-    console.log('socket disconnection')
+  socket.on('disconnect', function () {    
+
+    users--;
+    
+
+    console.log('user ' + users + ' disconnected')
     // console.log(SOCKET_LIST[socket.id]);
     delete SOCKET_LIST[socket.id]
     delete PLAYER_LIST[socket.id]
+    for(var i in PLAYER_LIST) {
+      var player = PLAYER_LIST[i];
+      player.x = 0;
+      player.userNumber = 1;
+    }
   })
 
 })
@@ -126,6 +158,7 @@ setInterval(function() {
     var player = PLAYER_LIST[i];
     player.updatePosition()
     pack.push({
+      userNumber: users,
       x: player.x,
       y: player.y,
     })
