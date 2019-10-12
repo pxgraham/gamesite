@@ -202,11 +202,13 @@
                                 message: 'From client: Clients id is ' + pid,
                         })
                 })
-                //Listens for 'message' from server
-                socket.on('newPosition', function(data) {
-                        //clear canvas
-                        //draw character
 
+                //server start
+                socket.on('newPosition', function(data) {
+                        ctx.drawImage(starBkgnd, 0,  0, canvas.width, canvas.height);
+                        for(var i = 0; i < data.length; i++) {
+                                ctx.drawImage(fireplayer, data[i].x, data[i].y, 150, 125);
+                        }
                 })
 
         </script>

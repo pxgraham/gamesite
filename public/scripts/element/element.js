@@ -100,16 +100,23 @@ var down = false;
 
 //game interval and keypresses
 function start() {
-    setInterval(game, 20);
+    // setInterval(game, 20);
     document.addEventListener('keydown', keyPress);
     document.addEventListener('keyup', keyLift);
 }
+
+//server start
+// var socket = io();
+// socket.on('newPosition', function(data) {
+//    //
+// })
+
 var id = 0; //id of bullet
 var index;
 
 function game() {
-    player.update();
-    update();   //framerate
+    // player.update();
+    // update();   //framerate
 
     // targets
     efirewall.update();
@@ -151,7 +158,7 @@ function game() {
 
     //you
     // player.update();
-    ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, 150, 125);
+    // ctx.drawImage(fireplayer, player.x - 12,  player.y - 1, 150, 125);
 
     //blocks showing what element your on
     fire.update();

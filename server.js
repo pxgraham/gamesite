@@ -49,8 +49,8 @@ var SOCKET_LIST = {};
 io.sockets.on('connection', function(socket) {
   console.log('socket connection');
   socket.id = Math.random();
-  socket.x = 20;
-  socket.y = 480;
+  socket.x = 0;
+  socket.y = 0;
   SOCKET_LIST[socket.id] = socket;
 
   //send msg
@@ -63,17 +63,28 @@ io.sockets.on('connection', function(socket) {
     message: 'Initialized',
   })
 
+  // socket disconnection
+  socket.on('disconnect', function () {
+    delete SOCKET_LIST[socket.id]
+  })
+
 })
 
 setInterval(function() {
+  var pack = [];
   for(var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i];
-    socket.x++;
     socket.y++;
-    socket.emit('newPostiion', {
+    socket.x++;
+    pack.push({
       x: socket.x,
-      y: socket.y
+      y: socket.y,
     })
   }
-}, 1000/60)
+
+  for(var i in SOCKET_LIST) {
+    socket.emit('newPosition', pack)
+  }
+
+}, 120)
 
