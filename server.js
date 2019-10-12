@@ -46,13 +46,48 @@ var io = require('socket.io')(serv, {});
 
 var SOCKET_LIST = {};
 
+var PLAYER_LIST = {};
+
+var users = 0;
+
+var Player = function(id) {
+  var self = {
+    x: 250,
+    y: 250,
+    id: id,     
+    left: false,
+    right: false,
+    up: false,
+    down: false
+  }
+  self.updatePosition = function() {
+    if (self.left) {
+      self.x -= 10;
+    }
+    if (self.right) {
+      self.x += 10;
+    }
+    if (self.down) {
+      self.y += 10;
+    }
+    if (self.up) {
+      self.y -= 10;
+    }
+  }
+  return self;
+}
+
 io.sockets.on('connection', function(socket) {
-  console.log('socket connection');
+  users++;
+  console.log('socket connected');
   socket.id = Math.random();
-  socket.x = 0;
-  socket.y = 0;
   SOCKET_LIST[socket.id] = socket;
 
+  var player = Player(socket.id);
+  PLAYER_LIST[socket.id] = player;
+  
+  socket.x = 0;
+  socket.y = 0;
   //send msg
   socket.on('messagefromcli', function(data) {
     console.log(`${data.message}`);
@@ -63,28 +98,43 @@ io.sockets.on('connection', function(socket) {
     message: 'Initialized',
   })
 
+  socket.on('movement', function(data) {
+    player.left = data.left;
+    player.right = data.right
+    player.up = data.up;
+    player.down = data.down
+  })
+
   // socket disconnection
   socket.on('disconnect', function () {
+    console.log('socket disconnection')
+    // console.log(SOCKET_LIST[socket.id]);
     delete SOCKET_LIST[socket.id]
+    delete PLAYER_LIST[socket.id]
   })
 
 })
 
+var left = false;
+var down = false;
+var right = false;
+var up = false;
+
 setInterval(function() {
   var pack = [];
-  for(var i in SOCKET_LIST) {
-    var socket = SOCKET_LIST[i];
-    socket.y++;
-    socket.x++;
+  for(var i in PLAYER_LIST) {
+    var player = PLAYER_LIST[i];
+    player.updatePosition()
     pack.push({
-      x: socket.x,
-      y: socket.y,
+      x: player.x,
+      y: player.y,
     })
   }
 
   for(var i in SOCKET_LIST) {
+    var socket = SOCKET_LIST[i];
     socket.emit('newPosition', pack)
   }
 
-}, 120)
+}, 20)
 
