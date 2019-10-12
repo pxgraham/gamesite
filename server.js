@@ -5,7 +5,6 @@
 
 var express = require("express");
 
-
 // ==============================================================================
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
@@ -35,24 +34,46 @@ require("./routes/htmlRoutes")(app);
 // LISTENER
 // The below code effectively "starts" our server
 // =============================================================================
-
 var serv = require('http').createServer(app);
-var io = require('socket.io')(serv, {});
-io.sockets.on('connection', function(socket) {
-  console.log('socket connection');
-
-  socket.on('happy', function(data) {
-    console.log(`happy because ${data.reason}`);
-  })
-
-  socket.emit('message', {
-    msg: 'hello from the server',
-  })
-
-})
 
 serv.listen(PORT, function() {
   console.log("App listening on PORT: " + PORT);
 });
 
+var socket = {};
+
+var io = require('socket.io')(serv, {});
+
+var SOCKET_LIST = {};
+
+io.sockets.on('connection', function(socket) {
+  console.log('socket connection');
+  socket.id = Math.random();
+  socket.x = 20;
+  socket.y = 480;
+  SOCKET_LIST[socket.id] = socket;
+
+  //send msg
+  socket.on('messagefromcli', function(data) {
+    console.log(`${data.message}`);
+  })
+
+  //listen for msg
+  socket.emit('messagefromserv', {
+    message: 'Initialized',
+  })
+
+})
+
+setInterval(function() {
+  for(var i in SOCKET_LIST) {
+    var socket = SOCKET_LIST[i];
+    socket.x++;
+    socket.y++;
+    socket.emit('newPostiion', {
+      x: socket.x,
+      y: socket.y
+    })
+  }
+}, 1000/60)
 

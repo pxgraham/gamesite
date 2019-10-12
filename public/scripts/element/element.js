@@ -106,7 +106,7 @@ function start() {
 }
 var id = 0; //id of bullet
 var index;
-console.log(player1active);
+
 function game() {
     player.update();
     update();   //framerate

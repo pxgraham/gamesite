@@ -127,6 +127,20 @@
                         height: 350px;
                         border: 1px dashed white;
                 }
+
+                .dev-opts {
+                        position: fixed;
+                        bottom: 0px;
+                        width: 100%;
+                        height: 200px;
+                }
+                .dev-btn {
+                        width: 200px;
+                        height: 200px;
+                        background: whitesmoke;
+                        font-size: 50px;
+                        color: lime;
+                }
         </style>
 </head>
 
@@ -134,9 +148,9 @@
 
         <div align="center">
                 <canvas id="canvas" width="1000px" height="700px"></canvas>                
-                <button id="updateBtn" style="background: lime; color: black; font-size: 30px;">update location</button>
+                <!-- <button id="updateBtn" style="background: lime; color: black; font-size: 30px;">update location</button>
                 <button id="connectBtn" style="background: magenta; font-size: 30px">connect</button>
-                <button id="disconnectBtn" style="background: red; font-size: 30px">disconnect</button>
+                <button id="disconnectBtn" style="background: red; font-size: 30px">disconnect</button> -->
                 <div class="joystickContainer">
                         <canvas id="joystick"></canvas>
                 </div>
@@ -158,12 +172,16 @@
                 <div id="bBtn" class="bbtn">
                         <p class="bbtnb">B</p>
                 </div>
+                <div class="dev-opts">
+                        <button class="dev-btn" id="test1">Test 1</button>
+                        <button class="dev-btn" id="test2">Test 2</button>
+                </div>
         </div>
-        <p id="test" style="color: cyan; font-size: 30px;">test</p>
+        <!-- <p id="test" style="color: cyan; font-size: 30px;">test</p> -->
         <!-- jQuery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <script src="/public/scripts/element/firebase.js"></script>
+        <!-- <script src="/public/scripts/element/firebase.js"></script> -->
         <script src="/public/scripts/element/objects.js"></script>
         <script src="/public/scripts/element/element.js"></script>
         <script src="/public/scripts/element/joystick.js"></script>
@@ -171,14 +189,26 @@
         <script src="/public/scripts/element/events.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script>
+                var pid = Math.random();
+
                 var socket = io();
-                socket.emit('happy', {
-                        reason: 'its my birthday'
+
+                var devbtn1 = document.getElementById('test1');
+                var devbtn2 = document.getElementById('test2');
+
+                devbtn1.addEventListener('click', function() {
+                        //sends 'happy' to server                        
+                        socket.emit('messagefromcli', {
+                                message: 'From client: Clients id is ' + pid,
+                        })
+                })
+                //Listens for 'message' from server
+                socket.on('newPosition', function(data) {
+                        //clear canvas
+                        //draw character
+
                 })
 
-                socket.on('message', function(data) {
-                        console.log(data.msg)
-                })
         </script>
 </body>
 
