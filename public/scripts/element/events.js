@@ -161,9 +161,14 @@ aBtn.addEventListener('touchstart', function (e) {
 
 })
 bBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault()
-    wallx = player.x + player.w + 5;
-    wally = player.y - 40;
+    e.preventDefault()    
+    socket.on('wallLocation', function(data) {
+        wallx = data.x;
+        wally = data.y;
+    })
+    socket.emit('action', {
+        pressed: 'bBtn',
+    })
     if (fireActive == true) {
         firewallup = true;
         waterwallup = false;

@@ -76,10 +76,10 @@ var airwall = new Object(-100, wally, 20, 100, 'white');
 var airwallup = false;
 
 //enemy test walls
-// var efirewall = new Object(700, 50, 20, 100, 'red');
-// var ewaterwall = new Object(700, 190, 20, 100, 'blue');
-// var eearthwall = new Object(700, 330, 20, 100, 'brown');
-// var eairwall = new Object(700, 470, 20, 100, 'white');
+var efirewall = new Object(700, 50, 20, 100, 'red');
+var ewaterwall = new Object(700, 190, 20, 100, 'blue');
+var eearthwall = new Object(700, 330, 20, 100, 'brown');
+var eairwall = new Object(700, 470, 20, 100, 'white');
 
 //element your currently on
 var fireActive = true;
@@ -127,7 +127,9 @@ function game() {
     //when *b* is pressed, a firewall turns on and gets placed, and stays placed.
     if (firewallup) {
         firewall.update();
-        ctx.drawImage(fireimg, firewall.x, firewall.y, firewall.w, firewall.h);
+        socket.on('wallLocation', function(data) {
+            ctx.drawImage(fireimg, data.x, data.y, firewall.w, firewall.h);
+        })
     }
     if (waterwallup == true) {
         waterwall.update();

@@ -50,6 +50,7 @@ var PLAYER_LIST = {};
 
 var users = 0;
 
+
 var Player = function(id) {
   if(users === 1) {
     var self = {
@@ -61,6 +62,8 @@ var Player = function(id) {
       up: false,
       down: false,
       userNumber: 1,
+      controller: 1,
+      shield: false,
     }
   } else if (users === 2) {
     var self = {
@@ -72,6 +75,19 @@ var Player = function(id) {
       up: false,
       down: false,
       userNumber: 2,
+      controller: 2,
+    }
+  } else if (users > 2) {
+    var self = {
+      x: -500,
+      y: -250,
+      id: id,     
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      userNumber: -2,
+      controller: -2,
     }
   }
   self.updatePosition = function() {
@@ -86,6 +102,28 @@ var Player = function(id) {
     }
     if (self.up) {
       self.y -= 10;
+    }
+    if(self.y < 0) {
+      self.y += 10;
+    }
+    if(self.y > 488) {
+      self.y -= 10;
+    }
+    if(self.controller === 1) {
+      if(self.x > 370) {
+        self.x -= 10;
+      }
+      if(self.x < -27) {
+        self.x += 10;
+      }
+    }
+    if(self.controller === 2) {
+      if(self.x < 469) {
+        self.x += 10;
+      }
+      if(self.x > 859) {
+        self.x -= 10;
+      }
     }
   }
   return self;
@@ -119,6 +157,17 @@ io.sockets.on('connection', function(socket) {
   //listen for msg
   socket.emit('messagefromserv', {
     message: 'Initialized',
+  })
+
+  socket.on('action', function(data) {
+    switch(data.pressed) {
+      case 'bBtn': 
+        socket.emit('wallLocation',{
+            x: player.x,
+            y: player.y,
+        })
+        break;
+    }
   })
 
   socket.on('movement', function(data) {
@@ -156,9 +205,17 @@ setInterval(function() {
   var pack = [];
   for(var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i];
+    if(player.x < 375) {
+      player.controller = 1;
+    } 
+    if(player.x > 450) {
+          player.controller = 2;
+          player.userNumber = 2;
+    }
     player.updatePosition()
     pack.push({
       userNumber: users,
+      controller: player.controller,
       x: player.x,
       y: player.y,
     })
