@@ -50,8 +50,25 @@ var PLAYER_LIST = {};
 
 var users = 0;
 
+var Entity = function() {
+  var self = {
+    x: 250,
+    y: 250,
+    spdX:0,
+    spdY:0,
+    id:"",
+  }
+  self.update = function() {
+    self.updatePosition();
+  }
+  self.updatePosition = function() {
+    self.x += self.spdX;
+    self.y += self.spdY;
+  }
+}
 
 var Player = function(id) {
+  var self = Entity();
   if(users === 1) {
     var self = {
       x: 250,
@@ -163,7 +180,7 @@ io.sockets.on('connection', function(socket) {
     switch(data.pressed) {
       case 'bBtn': 
         socket.emit('wallLocation',{
-            x: player.x,
+            x: player.x + 200,
             y: player.y,
         })
         break;
@@ -203,6 +220,10 @@ var up = false;
 
 setInterval(function() {
   var pack = [];
+  // socket.emit('wallLocation',{
+  //   x: player.x + 200,
+  //   y: player.y,
+  // })
   for(var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i];
     if(player.x < 375) {

@@ -126,7 +126,7 @@ function game() {
 
     //when *b* is pressed, a firewall turns on and gets placed, and stays placed.
     if (firewallup) {
-        firewall.update();
+        // firewall.update();
         socket.on('wallLocation', function(data) {
             ctx.drawImage(fireimg, data.x, data.y, firewall.w, firewall.h);
         })
