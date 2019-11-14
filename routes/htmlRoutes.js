@@ -23,6 +23,13 @@ module.exports = function(app) {
 //     res.sendFile(path.join(__dirname, "../public/reserve.html"));
 //   });
 
+app.get("/privacy", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/privacy.html"));
+});
+app.get("/store", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/store.html"));
+});
+
   // If no matching route is found default to home
   app.get("/games/element.html", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/element.html"));
